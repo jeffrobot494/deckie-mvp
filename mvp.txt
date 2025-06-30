@@ -1,0 +1,45 @@
+MVP -deckie.tcg
+Deckbuilder tool for indie TCG Creators
+
+Deckie is a web app for creating and managing deckbuilder tools for indie trading card games. The goal is to create a tool that lets users create a beautiful, functional deckbuilding tool they can share with their players in under five minutes. 
+
+The MVP has two components:
+1) A landing page with card upload and configuration
+2) a deckbuilder page 
+
+On the landing page, the user is instructed to:
+1) Upload all the cards in their game. 
+2) Provide the name of the game
+3) Choose a theme
+
+While the cards are being uploaded, the user is prompted for information 1 and 2. 
+After the cards are uploaded, the deckbuilder page is created by the server. When it's ready,
+the user is given the unique url to their deckbuilder. They click the link and it opens their deckbuilder in a new tab. 
+
+The deckbuilder shows all the cards that were uploaded in a clean, responsive grid. On the right side is a list that
+tracks which cards are in the deck. Cards can be added and removed from the deck list. There are buttons to export the
+decklist in various formats, including .txt and as an image for TTS. The whole page is styled according to the chosen theme.
+
+What is not in the MVP:
+Accounts, account creation, associating deckbuilders with users. Once the deckbuilder page is created for a set of cards, it can't be changed. 
+
+The Backend:
+The landing page doesn't keep identifying information about the user. When the user submits the cards for their game, those cards are sent to the CDN, which sends urls to the database. The server creates a unique url for those images, and associates it with them in the database. The name of the game and the chosen theme is also associated with that url.
+
+When the deckbuilder at a given url is loaded, it pulls all the images associated with the url, the name of the game, and the theme and renders the page with that information.
+
+This will be a Railway application using react for the front-end and express for the backend with a PostgreSQL database.
+
+Image storage: cloudinary
+cloud name: dmfjx6e7z
+API key: 298828572186194
+API Secret: j5JrldVYYWtEIzHK7awsy0KOmdg
+CLOUDINARY_URL=cloudinary://<your_api_key>:<your_api_secret>@dmfjx6e7z
+
+Mobile version: None.
+Nanoid for generating unique urls.
+No deckbuilding constaints
+No file-size constraints
+No deckbuilding cleanup, deckbuilders are kept forever.
+Supported file types for images are PNG and JPG.
+Images are uploaded in bulk via multiple selection.
