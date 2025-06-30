@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deckie TCG - Prototype</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Landing Page Styles */
+        .landing-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .landing-container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .theme-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .theme-option {
+            padding: 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .theme-option:hover, .theme-option.selected {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .theme-dark { background: linear-gradient(45deg, #2c3e50, #34495e); color: white; }
+        .theme-light { background: linear-gradient(45deg, #ecf0f1, #bdc3c7); }
+        .theme-neon { background: linear-gradient(45deg, #00ff88, #00ccff); }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9ff;
+        }
+
+        .upload-area:hover {
+            border-color: #5a6fd8;
+            background: #f0f3ff;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #5a6fd8;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Deckbuilder Page Styles */
+        .deckbuilder-page {
+            display: none;
+            min-height: 100vh;
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .game-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .url-display {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+            padding: 20px;
+            min-height: calc(100vh - 120px);
+        }
+
+        .cards-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .card {
+            aspect-ratio: 2.5/3.5;
+            background: linear-gradient(45deg, #e3f2fd, #bbdefb);
+            border-radius: 8px;
+            border: 2px solid #e1e5e9;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .deck-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            height: fit-content;
+        }
+
+        .deck-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .deck-count {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .deck-list {
+            min-height: 200px;
+            border: 2px dashed #e1e5e9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .deck-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .deck-item:last-child {
+            border-bottom: none;
+        }
+
+        .remove-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .export-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        /* Progress indicator */
+        .progress-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e1e5e9;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #667eea;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            .landing-container {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .show-flex {
+            display: flex;
+        }
+
+        .show-grid {
+            display: grid;
+        }
+    </style>
+</head>
+<body>
+    <!-- Landing Page -->
+    <div class="landing-page" id="landingPage">
+        <div class="landing-container">
+            <div class="logo">deckie.tcg</div>
+            <div class="tagline">Create a beautiful deckbuilder for your TCG in under 5 minutes</div>
+            
+            <form id="setupForm">
+                <div class="form-group">
+                    <label for="gameName">Game Name</label>
+                    <input type="text" id="gameName" placeholder="Enter your game's name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Choose a Theme</label>
+                    <div class="theme-selector">
+                        <div class="theme-option theme-dark" data-theme="dark">
+                            <div><strong>Dark</strong></div>
+                            <div>Professional</div>
+                        </div>
+                        <div class="theme-option theme-light selected" data-theme="light">
+                            <div><strong>Light</strong></div>
+                            <div>Clean & Simple</div>
+                        </div>
+                        <div class="theme-option theme-neon" data-theme="neon">
+                            <div><strong>Neon</strong></div>
+                            <div>Cyberpunk</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Card Images</label>
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📁</div>
+                        <div><strong>Click to upload or drag and drop</strong></div>
+                        <div>JPG, PNG files accepted</div>
+                        <input type="file" id="fileInput" multiple accept=".jpg,.jpeg,.png" style="display: none;">
+                    </div>
+                </div>
+
+                <div class="progress-container" id="progressContainer">
+                    <div>Uploading cards...</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" id="createBtn">Create Deckbuilder</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Deckbuilder Page -->
+    <div class="deckbuilder-page" id="deckbuilderPage">
+        <div class="header">
+            <div>
+                <div class="game-title" id="gameTitle">My Awesome TCG</div>
+                <div class="url-display">deckie.tcg/deck/V1StGXR8_Z</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="cards-section">
+                <h2>All Cards</h2>
+                <div class="cards-grid" id="cardsGrid">
+                    <!-- Sample cards -->
+                    <div class="card" data-card="Lightning Bolt">Lightning Bolt</div>
+                    <div class="card" data-card="Fire Dragon">Fire Dragon</div>
+                    <div class="card" data-card="Water Spirit">Water Spirit</div>
+                    <div class="card" data-card="Earth Golem">Earth Golem</div>
+                    <div class="card" data-card="Wind Archer">Wind Archer</div>
+                    <div class="card" data-card="Dark Mage">Dark Mage</div>
+                    <div class="card" data-card="Light Paladin">Light Paladin</div>
+                    <div class="card" data-card="Ice Shard">Ice Shard</div>
+                    <div class="card" data-card="Healing Potion">Healing Potion</div>
+                    <div class="card" data-card="Magic Shield">Magic Shield</div>
+                    <div class="card" data-card="Sword of Power">Sword of Power</div>
+                    <div class="card" data-card="Ancient Rune">Ancient Rune</div>
+                </div>
+            </div>
+
+            <div class="deck-section">
+                <div class="deck-header">
+                    <h3>My Deck</h3>
+                    <div class="deck-count" id="deckCount">0 cards</div>
+                </div>
+
+                <div class="deck-list" id="deckList">
+                    <div style="text-align: center; color: #999; padding: 40px 0;">
+                        Click cards to add them to your deck
+                    </div>
+                </div>
+
+                <div class="export-buttons">
+                    <button class="btn-secondary">Export as .txt</button>
+                    <button class="btn-secondary">Export as TTS Image</button>
+                    <button class="btn-secondary">Copy Decklist</button>
+                    <button class="btn-secondary">Share Deck URL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let selectedTheme = 'light';
+        let deckCards = [];
+        let cardCounts = {};
+
+        // Theme selection
+        document.querySelectorAll('.theme-option').forEach(option => {
+            option.addEventListener('click', () => {
+                document.querySelectorAll('.theme-option').forEach(o => o.classList.remove('selected'));
+                option.classList.add('selected');
+                selectedTheme = option.dataset.theme;
+            });
+        });
+
+        // File upload area
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#5a6fd8';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '#667eea';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#667eea';
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                uploadArea.innerHTML = `
+                    <div class="upload-icon">✅</div>
+                    <div><strong>${files.length} files selected</strong></div>
+                    <div>Ready to upload</div>
+                `;
+            }
+        }
+
+        // Form submission
+        document.getElementById('setupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const gameName = document.getElementById('gameName').value;
+            if (!gameName) {
+                alert('Please enter a game name');
+                return;
+            }
+
+            if (!fileInput.files.length) {
+                alert('Please select card images to upload');
+                return;
+            }
+
+            // Show progress
+            const progressContainer = document.getElementById('progressContainer');
+            const progressFill = document.getElementById('progressFill');
+            const createBtn = document.getElementById('createBtn');
+            
+            progressContainer.style.display = 'block';
+            createBtn.disabled = true;
+            createBtn.textContent = 'Creating...';
+
+            // Simulate upload progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    // Switch to deckbuilder page
+                    setTimeout(() => {
+                        document.getElementById('gameTitle').textContent = gameName;
+                        document.getElementById('landingPage').style.display = 'none';
+                        document.getElementById('deckbuilderPage').style.display = 'block';
+                        
+                        // Apply theme
+                        applyTheme(selectedTheme);
+                    }, 500);
+                }
+                progressFill.style.width = progress + '%';
+            }, 200);
+        });
+
+        // Deckbuilder functionality
+        function initializeDeckbuilder() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    addCardToDeck(card.dataset.card);
+                });
+            });
+        }
+
+        function addCardToDeck(cardName) {
+            if (!cardCounts[cardName]) {
+                cardCounts[cardName] = 0;
+            }
+            
+            cardCounts[cardName]++;
+            updateDeckDisplay();
+        }
+
+        function removeCardFromDeck(cardName) {
+            if (cardCounts[cardName] && cardCounts[cardName] > 0) {
+                cardCounts[cardName]--;
+                if (cardCounts[cardName] === 0) {
+                    delete cardCounts[cardName];
+                }
+            }
+            updateDeckDisplay();
+        }
+
+        function updateDeckDisplay() {
+            const deckList = document.getElementById('deckList');
+            const deckCount = document.getElementById('deckCount');
+            
+            const totalCards = Object.values(cardCounts).reduce((sum, count) => sum + count, 0);
+            deckCount.textContent = `${totalCards} cards`;
+
+            if (totalCards === 0) {
+                deckList.innerHTML = `
+                    <div style="text-align: center; color: #999; padding: 40px 0;">
+                        Click cards to add them to your deck
+                    </div>
+                `;
+                return;
+            }
+
+            deckList.innerHTML = Object.entries(cardCounts).map(([cardName, count]) => `
+                <div class="deck-item">
+                    <span>${count}x ${cardName}</span>
+                    <button class="remove-btn" onclick="removeCardFromDeck('${cardName}')">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        function applyTheme(theme) {
+            const deckbuilderPage = document.getElementById('deckbuilderPage');
+            
+            // Reset theme classes
+            deckbuilderPage.className = 'deckbuilder-page';
+            
+            // Apply theme-specific styles
+            if (theme === 'dark') {
+                deckbuilderPage.style.background = '#2c3e50';
+                deckbuilderPage.style.color = '#ecf0f1';
+            } else if (theme === 'neon') {
+                deckbuilderPage.style.background = 'linear-gradient(45deg, #1a1a2e, #16213e)';
+                deckbuilderPage.style.color = '#00ff88';
+            } else {
+                deckbuilderPage.style.background = '#f5f5f5';
+                deckbuilderPage.style.color = '#333';
+            }
+        }
+
+        // Initialize deckbuilder when page loads
+        initializeDeckbuilder();
+
+        // Make functions global for onclick handlers
+        window.removeCardFromDeck = removeCardFromDeck;
+    </script>
+</body>
+</html>

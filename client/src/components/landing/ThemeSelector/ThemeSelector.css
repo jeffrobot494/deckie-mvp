@@ -1,0 +1,57 @@
+.theme-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.theme-option {
+  padding: 20px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  background: var(--background-primary);
+}
+
+.theme-option:hover,
+.theme-option.selected {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.theme-name {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.theme-description {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Theme previews */
+.theme-light {
+  background: linear-gradient(45deg, #ecf0f1, #bdc3c7);
+  color: #2c3e50;
+}
+
+.theme-dark {
+  background: linear-gradient(45deg, #2c3e50, #34495e);
+  color: #ecf0f1;
+}
+
+.theme-neon {
+  background: linear-gradient(45deg, #1a1a2e, #16213e);
+  color: #00ff88;
+  border-color: #00ff88;
+}
+
+.theme-neon:hover,
+.theme-neon.selected {
+  border-color: #00cc66;
+  box-shadow: 0 4px 8px rgba(0, 255, 136, 0.3);
+}

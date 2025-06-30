@@ -1,0 +1,80 @@
+.landing-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.landing-container {
+  background: var(--background-primary);
+  border-radius: var(--border-radius-large);
+  padding: 40px;
+  box-shadow: var(--shadow-large);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  border: 1px solid var(--border-color);
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.tagline {
+  color: var(--text-secondary);
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+
+.landing-form {
+  text-align: left;
+}
+
+.create-button {
+  width: 100%;
+  padding: 15px 30px;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.error-message {
+  background: rgba(220, 53, 69, 0.1);
+  color: var(--danger-color);
+  padding: 12px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--danger-color);
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Theme-specific styling for landing page */
+[data-theme="dark"] .landing-page {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+}
+
+[data-theme="neon"] .landing-page {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+@media (max-width: 768px) {
+  .landing-container {
+    margin: 20px;
+    padding: 30px 20px;
+  }
+  
+  .logo {
+    font-size: 2rem;
+  }
+  
+  .tagline {
+    font-size: 1rem;
+  }
+}

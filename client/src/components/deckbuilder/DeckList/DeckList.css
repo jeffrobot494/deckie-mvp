@@ -1,0 +1,95 @@
+.deck-list {
+  min-height: 200px;
+  border: 2px dashed var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  margin-bottom: 20px;
+  background: var(--background-secondary);
+}
+
+.deck-list.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.empty-deck-message {
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+.empty-deck-message p {
+  margin: 0;
+  padding: 40px 0;
+}
+
+.deck-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.deck-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--background-primary);
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+  transition: background-color 0.2s ease;
+}
+
+.deck-item:hover {
+  background: var(--background-secondary);
+}
+
+.deck-item:last-child {
+  border-bottom: none;
+}
+
+.deck-item-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.card-count {
+  font-weight: bold;
+  color: var(--primary-color);
+  min-width: 30px;
+}
+
+.card-name {
+  color: var(--text-primary);
+  flex: 1;
+  word-break: break-word;
+}
+
+.remove-btn {
+  padding: 4px 8px;
+  font-size: 12px;
+  min-width: auto;
+}
+
+@media (max-width: 768px) {
+  .deck-item {
+    padding: 6px 8px;
+  }
+  
+  .deck-item-text {
+    gap: 6px;
+  }
+  
+  .card-name {
+    font-size: 14px;
+  }
+  
+  .remove-btn {
+    padding: 3px 6px;
+    font-size: 11px;
+  }
+}

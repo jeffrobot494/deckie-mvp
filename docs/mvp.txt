@@ -28,7 +28,7 @@ The landing page doesn't keep identifying information about the user. When the u
 
 When the deckbuilder at a given url is loaded, it pulls all the images associated with the url, the name of the game, and the theme and renders the page with that information.
 
-This will be a Railway application using react for the front-end and express for the backend with a PostgreSQL database.
+This will be a Railway application using react for the front-end and express for the backend with a PostgreSQL database. 
 
 Image storage: cloudinary
 cloud name: dmfjx6e7z
@@ -43,3 +43,38 @@ No file-size constraints
 No deckbuilding cleanup, deckbuilders are kept forever.
 Supported file types for images are PNG and JPG.
 Images are uploaded in bulk via multiple selection.
+
+DATA FLOW on landing page:
+1. user enters game name
+2. user chooses a theme
+3. user selects images for upload
+4. user clicks "submit" button
+5. images are uploaded from client to cloudinary
+6. cloudinary returns image urls
+7. POST to server with game name, theme, image urls
+8. server generates a unique deckie_url for this deckbuilder
+9. server saves name, theme, image urls, and deckie_url to database
+10. server returns deckie_url to client
+11. client displays link to deckbuilder
+12. user clicks link to open their deckbuilder
+
+DATA FLOW on deckbuilder
+0. client displays deckbuilder in "loading" state
+1. client takes deckie_url from url
+2. client makes GET to server with deckie_url
+3. server queries database for name, theme, and image urls for that deckie_url
+4. server returns name, theme, image urls to client
+5. client populates deckbuilder with name, theme, images
+
+server endpoints:
+GET name
+GET image_urls
+GET theme
+GET deckie_url
+GET deckie: returns name, theme, image_urls
+
+POST newdeckie
+	name
+	theme
+	image_urls
+	returns deckie_url
