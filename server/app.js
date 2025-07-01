@@ -5,6 +5,7 @@ import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 
 import deckieRoutes from './routes/deckie.js';
+import cardsRoutes from './routes/cards.js';
 import healthRoutes from './routes/health.js';
 
 dotenv.config({ path: '../.env' });
@@ -35,6 +36,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 // Routes
 app.use('/api/health', healthRoutes);
 app.use('/api/deckie', deckieRoutes);
+app.use('/api/cards', cardsRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {

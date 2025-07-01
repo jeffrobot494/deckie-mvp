@@ -1,23 +1,8 @@
 import Card from '../Card/Card'
 import './CardsGrid.css'
 
-function CardsGrid({ imageUrls = [] }) {
-  const getCardName = (url) => {
-    // Extract filename from Cloudinary URL and clean it up
-    try {
-      const urlParts = url.split('/')
-      const filename = urlParts[urlParts.length - 1]
-      const nameWithoutExtension = filename.split('.')[0]
-      // Replace underscores and hyphens with spaces, capitalize words
-      return nameWithoutExtension
-        .replace(/[_-]/g, ' ')
-        .replace(/\b\w/g, l => l.toUpperCase())
-    } catch (error) {
-      return 'Unknown Card'
-    }
-  }
-  
-  if (imageUrls.length === 0) {
+function CardsGrid({ cards = [] }) {
+  if (cards.length === 0) {
     return (
       <div className="cards-section">
         <h2>All Cards</h2>
@@ -30,13 +15,14 @@ function CardsGrid({ imageUrls = [] }) {
   
   return (
     <div className="cards-section">
-      <h2>All Cards ({imageUrls.length})</h2>
+      <h2>All Cards ({cards.length})</h2>
       <div className="cards-grid">
-        {imageUrls.map((imageUrl, index) => (
+        {cards.map((card) => (
           <Card
-            key={`${imageUrl}-${index}`}
-            imageUrl={imageUrl}
-            cardName={getCardName(imageUrl)}
+            key={card.id}
+            imageUrl={card.imageUrl}
+            cardName={card.cardName}
+            isProcessing={card.isProcessing}
           />
         ))}
       </div>

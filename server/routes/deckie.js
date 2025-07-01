@@ -1,6 +1,8 @@
 import express from 'express';
 import Deckie from '../models/Deckie.js';
+import Card from '../models/Card.js';
 import nanoid from '../utils/nanoid.js';
+import cardProcessor from '../services/cardProcessor.js';
 import { validateDeckieCreation } from '../middleware/validation.js';
 
 const router = express.Router();
@@ -11,12 +13,18 @@ router.post('/', validateDeckieCreation, async (req, res) => {
     const { gameName, theme, imageUrls } = req.body;
     const deckieUrl = nanoid();
 
+    // Create the deckbuilder
     const deckie = await Deckie.create({
       deckieUrl,
       gameName: gameName.trim(),
-      theme,
-      imageUrls
+      theme
     });
+
+    // Create cards for this deckbuilder
+    await Card.createMany(deckie.id, imageUrls);
+
+    // Trigger background Vision API processing
+    cardProcessor.triggerProcessing(deckie.id);
 
     res.status(201).json({
       deckieUrl: deckie.deckie_url,
@@ -45,8 +53,7 @@ router.get('/:deckieUrl', async (req, res) => {
 
     res.json({
       gameName: deckie.game_name,
-      theme: deckie.theme,
-      imageUrls: deckie.image_urls
+      theme: deckie.theme
     });
   } catch (error) {
     console.error('Error fetching deckie:', error);

@@ -28,6 +28,28 @@ export const api = {
     
     return response.json()
   },
+
+  async getCards(deckieUrl) {
+    const response = await fetch(`${API_BASE_URL}/cards/${deckieUrl}`)
+    
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.error || 'Failed to fetch cards')
+    }
+    
+    return response.json()
+  },
+
+  async getCardsStatus(deckieUrl) {
+    const response = await fetch(`${API_BASE_URL}/cards/${deckieUrl}/status`)
+    
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.error || 'Failed to fetch processing status')
+    }
+    
+    return response.json()
+  },
   
   async healthCheck() {
     const response = await fetch(`${API_BASE_URL}/health`)

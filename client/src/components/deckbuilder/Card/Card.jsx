@@ -1,7 +1,7 @@
 import { useDeck } from '../../../context/DeckContext'
 import './Card.css'
 
-function Card({ imageUrl, cardName }) {
+function Card({ imageUrl, cardName, isProcessing = false }) {
   const { addCard } = useDeck()
   
   const handleClick = () => {

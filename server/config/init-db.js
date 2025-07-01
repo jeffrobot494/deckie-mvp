@@ -45,34 +45,41 @@ async function initializeDatabase() {
 
     await appClient.connect();
 
-    // Check if table exists
-    const tableCheckQuery = `
-      SELECT EXISTS (
-        SELECT FROM information_schema.tables 
-        WHERE table_schema = 'public' 
-        AND table_name = 'deckies'
+    // Create tables (using IF NOT EXISTS for safety)
+    console.log('Creating database tables...');
+    
+    // Create deckies table
+    const createDeckiesQuery = `
+      CREATE TABLE IF NOT EXISTS deckies (
+        id SERIAL PRIMARY KEY,
+        deckie_url VARCHAR(255) UNIQUE NOT NULL,
+        game_name VARCHAR(255) NOT NULL,
+        theme VARCHAR(50) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `;
-    const tableResult = await appClient.query(tableCheckQuery);
+    await appClient.query(createDeckiesQuery);
+    console.log('✅ Deckies table ready');
 
-    if (!tableResult.rows[0].exists) {
-      // Table doesn't exist, create it
-      console.log('Creating deckies table...');
-      const createTableQuery = `
-        CREATE TABLE deckies (
-          id SERIAL PRIMARY KEY,
-          deckie_url VARCHAR(255) UNIQUE NOT NULL,
-          game_name VARCHAR(255) NOT NULL,
-          theme VARCHAR(50) NOT NULL,
-          image_urls TEXT[] NOT NULL,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-      `;
-      await appClient.query(createTableQuery);
-      console.log('✅ Table created successfully');
-    } else {
-      console.log('✅ Table already exists');
-    }
+    // Create cards table
+    const createCardsQuery = `
+      CREATE TABLE IF NOT EXISTS cards (
+        id SERIAL PRIMARY KEY,
+        deckie_id INTEGER NOT NULL REFERENCES deckies(id) ON DELETE CASCADE,
+        image_url TEXT NOT NULL,
+        card_name TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `;
+    await appClient.query(createCardsQuery);
+    console.log('✅ Cards table ready');
+
+    // Create indexes for better performance
+    const createIndexesQuery = `
+      CREATE INDEX IF NOT EXISTS idx_cards_deckie_id ON cards(deckie_id);
+    `;
+    await appClient.query(createIndexesQuery);
+    console.log('✅ Database indexes ready');
 
     await appClient.end();
     console.log('🚀 Database initialization complete!');

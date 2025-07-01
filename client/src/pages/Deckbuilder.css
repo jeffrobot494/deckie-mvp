@@ -3,6 +3,45 @@
   background: var(--background-tertiary);
 }
 
+/* Processing status bar */
+.processing-status {
+  background: var(--background-primary);
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--shadow-small);
+}
+
+/* Processing complete banner */
+.processing-complete {
+  background: linear-gradient(135deg, var(--success-color), #22c55e);
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--shadow-small);
+}
+
+.complete-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  color: white;
+  font-weight: 600;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.refresh-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.refresh-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
 .main-content {
   display: grid;
   grid-template-columns: 1fr 350px;
