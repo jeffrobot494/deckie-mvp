@@ -118,4 +118,4 @@ vision-test/
 # Google Cloud service account keys
 **/google-service-account.json
 **/*service-account*.json
-**/deckie-mvp-0d0f328d42f4.json
+deckie-mvp-0d0f328d42f4.json
