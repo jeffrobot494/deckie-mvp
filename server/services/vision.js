@@ -96,7 +96,7 @@ class VisionService {
     // Skip the first detection (full text) and get individual words
     const textWithBounds = detections.slice(1);
     
-    // Helper function to calculate text area (size)
+    // Helper functions
     const getTextArea = (detection) => {
       if (!detection.boundingPoly?.vertices || detection.boundingPoly.vertices.length < 4) {
         return 0;
@@ -107,42 +107,128 @@ class VisionService {
       return width * height;
     };
     
-    // Helper function to get Y position
     const getYPosition = (detection) => {
       return detection.boundingPoly?.vertices?.[0]?.y || 0;
     };
     
-    // Filter and analyze text
-    const analyzedText = textWithBounds
-      .filter(text => text.description.length > 2) // Filter out single characters
+    const getXPosition = (detection) => {
+      return detection.boundingPoly?.vertices?.[0]?.x || 0;
+    };
+    
+    const getTextHeight = (detection) => {
+      if (!detection.boundingPoly?.vertices || detection.boundingPoly.vertices.length < 4) {
+        return 0;
+      }
+      const vertices = detection.boundingPoly.vertices;
+      return Math.abs(vertices[2].y - vertices[0].y);
+    };
+    
+    // Filter and prepare text elements
+    const words = textWithBounds
+      .filter(text => text.description.length > 1) // Filter out single characters
       .map(text => ({
         text: text.description,
+        x: getXPosition(text),
         y: getYPosition(text),
         area: getTextArea(text),
+        height: getTextHeight(text),
         detection: text
       }))
-      .sort((a, b) => a.y - b.y); // Sort by Y position first
+      .sort((a, b) => a.y - b.y || a.x - b.x); // Sort by Y first, then X
     
-    if (analyzedText.length === 0) {
+    if (words.length === 0) {
       return 'Unknown Card';
     }
     
+    // Group words that are on the same line (similar Y position and close together)
+    const groups = this.groupWordsIntoLines(words);
+    
     // Find the image height to determine "top portion"
-    const maxY = Math.max(...analyzedText.map(t => t.y));
+    const maxY = Math.max(...words.map(w => w.y));
     const topThreshold = maxY * 0.3; // Top 30% of the image
     
-    // Filter to only text in the top portion
-    const topText = analyzedText.filter(t => t.y <= topThreshold);
+    // Filter groups to only those in the top portion
+    const topGroups = groups.filter(group => group.y <= topThreshold);
     
-    if (topText.length === 0) {
-      // Fallback to topmost text
-      return this.cleanCardName(analyzedText[0].text);
+    if (topGroups.length === 0) {
+      // Fallback to the first group (topmost)
+      return this.cleanCardName(groups[0].text);
     }
     
-    // Among top text, find the largest by area
-    const largestTopText = topText.sort((a, b) => b.area - a.area)[0];
+    // Among top groups, find the largest by total area
+    const largestGroup = topGroups.sort((a, b) => b.area - a.area)[0];
     
-    return this.cleanCardName(largestTopText.text);
+    return this.cleanCardName(largestGroup.text);
+  }
+  
+  groupWordsIntoLines(words) {
+    const groups = [];
+    const used = new Set();
+    
+    for (let i = 0; i < words.length; i++) {
+      if (used.has(i)) continue;
+      
+      const currentWord = words[i];
+      const group = {
+        text: currentWord.text,
+        x: currentWord.x,
+        y: currentWord.y,
+        area: currentWord.area,
+        height: currentWord.height,
+        words: [currentWord]
+      };
+      
+      used.add(i);
+      
+      // Look for words on the same line (similar Y position)
+      for (let j = i + 1; j < words.length; j++) {
+        if (used.has(j)) continue;
+        
+        const otherWord = words[j];
+        
+        // Check if words are on roughly the same line
+        const yDifference = Math.abs(currentWord.y - otherWord.y);
+        const maxHeight = Math.max(currentWord.height, otherWord.height);
+        const yTolerance = maxHeight * 0.5; // Allow 50% height difference
+        
+        if (yDifference <= yTolerance) {
+          // Check if words are close enough horizontally
+          const wordsInGroup = group.words.sort((a, b) => a.x - b.x);
+          const leftmostX = wordsInGroup[0].x;
+          const rightmostX = wordsInGroup[wordsInGroup.length - 1].x + 
+                           (wordsInGroup[wordsInGroup.length - 1].detection.boundingPoly.vertices[1].x - 
+                            wordsInGroup[wordsInGroup.length - 1].detection.boundingPoly.vertices[0].x);
+          
+          const wordWidth = otherWord.detection.boundingPoly.vertices[1].x - otherWord.detection.boundingPoly.vertices[0].x;
+          const gapTolerance = maxHeight * 2; // Allow gaps up to 2x character height
+          
+          // Check if the word fits within reasonable distance of the group
+          const distanceToGroup = Math.min(
+            Math.abs(otherWord.x - rightmostX), // Distance to right edge
+            Math.abs(leftmostX - (otherWord.x + wordWidth)) // Distance to left edge
+          );
+          
+          if (distanceToGroup <= gapTolerance) {
+            // Add word to group
+            group.words.push(otherWord);
+            group.area += otherWord.area;
+            used.add(j);
+          }
+        }
+      }
+      
+      // Construct the final text for this group
+      const sortedWords = group.words.sort((a, b) => a.x - b.x);
+      group.text = sortedWords.map(w => w.text).join(' ');
+      
+      // Update group position to be the average
+      group.y = group.words.reduce((sum, w) => sum + w.y, 0) / group.words.length;
+      group.x = Math.min(...group.words.map(w => w.x));
+      
+      groups.push(group);
+    }
+    
+    return groups.sort((a, b) => a.y - b.y); // Sort groups by Y position
   }
 
   cleanCardName(rawName) {
