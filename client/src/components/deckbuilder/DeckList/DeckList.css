@@ -1,10 +1,12 @@
 .deck-list {
   min-height: 200px;
+  max-height: 500px; /* Limit height for ~20 items */
   border: 2px dashed var(--border-color);
   border-radius: var(--border-radius);
-  padding: 15px;
+  padding: 10px;
   margin-bottom: 20px;
   background: var(--background-secondary);
+  overflow-y: auto; /* Add scrollbar when needed */
 }
 
 .deck-list.empty {
@@ -27,19 +29,18 @@
 .deck-items {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px; /* Reduced gap between items */
 }
 
 .deck-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border-color);
+  padding: 4px 8px; /* Reduced padding */
   background: var(--background-primary);
-  padding: 8px 12px;
   border-radius: var(--border-radius);
   transition: background-color 0.2s ease;
+  min-height: 24px; /* Consistent height for ~20 items in 500px */
 }
 
 .deck-item:hover {
@@ -53,20 +54,23 @@
 .deck-item-text {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px; /* Reduced gap */
   flex: 1;
 }
 
 .card-count {
   font-weight: bold;
   color: var(--primary-color);
-  min-width: 30px;
+  min-width: 25px; /* Slightly smaller */
+  font-size: 13px; /* Smaller font */
 }
 
 .card-name {
   color: var(--text-primary);
   flex: 1;
   word-break: break-word;
+  font-size: 13px; /* Smaller font */
+  line-height: 1.2; /* Tighter line height */
 }
 
 .remove-btn {
