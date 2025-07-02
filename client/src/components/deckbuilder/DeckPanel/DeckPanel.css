@@ -10,12 +10,16 @@
 }
 
 .deck-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 15px;
   padding-bottom: 15px;
   border-bottom: 2px solid var(--border-color);
+}
+
+.deck-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
 }
 
 .deck-header h3 {
@@ -33,6 +37,12 @@
   font-size: 14px;
   min-width: 80px;
   text-align: center;
+}
+
+.clear-deck-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  min-width: 80px;
 }
 
 /* Neon theme deck count button styling */
