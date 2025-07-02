@@ -34,11 +34,16 @@ app.use(helmet({
   },
 }));
 
-// Rate limiting
+// Rate limiting with proper proxy configuration for Railway
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: parseInt(process.env.API_RATE_LIMIT) || 100,
-  message: 'Too many requests from this IP, please try again later.'
+  message: 'Too many requests from this IP, please try again later.',
+  // Skip validation for trust proxy in production
+  validate: {
+    trustProxy: false,
+    xForwardedForHeader: false
+  }
 });
 app.use('/api', limiter);
 
