@@ -13,17 +13,39 @@ class VisionService {
 
   async initializeClient() {
     try {
-      // Check if credentials are available
-      if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-        throw new Error('GOOGLE_APPLICATION_CREDENTIALS environment variable not set');
+      // Check if credentials are available (either file path or environment variables)
+      const hasEnvCredentials = process.env.GOOGLE_CLOUD_PROJECT_ID && 
+                               process.env.GOOGLE_CLOUD_PRIVATE_KEY && 
+                               process.env.GOOGLE_CLOUD_CLIENT_EMAIL;
+      
+      const hasFileCredentials = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+
+      if (!hasEnvCredentials && !hasFileCredentials) {
+        throw new Error('Google Cloud credentials not found. Set either GOOGLE_APPLICATION_CREDENTIALS or individual environment variables.');
       }
 
-      console.log(`🔑 Using credentials from: ${process.env.GOOGLE_APPLICATION_CREDENTIALS}`);
+      let clientConfig = {};
+
+      if (hasEnvCredentials) {
+        // Use environment variables (for Railway deployment)
+        console.log('🔑 Using Google Cloud credentials from environment variables');
+        clientConfig = {
+          projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
+          credentials: {
+            client_email: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
+            private_key: process.env.GOOGLE_CLOUD_PRIVATE_KEY.replace(/\\n/g, '\n'),
+          }
+        };
+      } else {
+        // Use service account file (for local development)
+        console.log(`🔑 Using credentials from: ${process.env.GOOGLE_APPLICATION_CREDENTIALS}`);
+        clientConfig = {
+          keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS
+        };
+      }
       
-      // Initialize client with explicit credentials path
-      this.client = new vision.ImageAnnotatorClient({
-        keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS
-      });
+      // Initialize client with appropriate credentials
+      this.client = new vision.ImageAnnotatorClient(clientConfig);
       
       // Test the client by checking credentials
       const projectId = await this.client.getProjectId();
@@ -36,8 +58,9 @@ class VisionService {
       console.error('   Stack:', error.stack);
       console.warn('   Cards will use fallback names instead of Vision API extraction');
       
-      if (error.message.includes('GOOGLE_APPLICATION_CREDENTIALS') || error.message.includes('ENOENT')) {
-        console.warn('   💡 Put your service account JSON file at: ./server/config/deckie-mvp-0d0f328d42f4.json');
+      if (error.message.includes('GOOGLE_APPLICATION_CREDENTIALS') || error.message.includes('credentials')) {
+        console.warn('   💡 For local development: Set GOOGLE_APPLICATION_CREDENTIALS to path of service account JSON');
+        console.warn('   💡 For deployment: Set GOOGLE_CLOUD_PROJECT_ID, GOOGLE_CLOUD_CLIENT_EMAIL, and GOOGLE_CLOUD_PRIVATE_KEY');
       }
       
       if (error.code) {
