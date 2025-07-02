@@ -1,4 +1,5 @@
-const API_BASE_URL = 'http://localhost:3000/api'
+// Use relative URL so it works in both local development and production
+const API_BASE_URL = '/api'
 
 export const api = {
   async createDeckie(data) {
