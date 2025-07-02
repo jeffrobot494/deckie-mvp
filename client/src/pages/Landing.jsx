@@ -89,7 +89,7 @@ function Landing() {
           </div>
           
           <div className="form-group">
-            <label>Choose a Theme</label>
+            <label>Choose a theme for your deckbuilder</label>
             <ThemeSelector />
           </div>
           
