@@ -3,7 +3,20 @@ const CLOUDINARY_CONFIG = {
   uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
 }
 
+// Debug logging
+console.log('Cloudinary Config:', {
+  cloudName: CLOUDINARY_CONFIG.cloudName,
+  uploadPreset: CLOUDINARY_CONFIG.uploadPreset,
+  hasCloudName: !!CLOUDINARY_CONFIG.cloudName,
+  hasUploadPreset: !!CLOUDINARY_CONFIG.uploadPreset
+})
+
 export const uploadToCloudinary = async (files, onProgress) => {
+  // Validate configuration first
+  if (!CLOUDINARY_CONFIG.cloudName || !CLOUDINARY_CONFIG.uploadPreset) {
+    throw new Error(`Cloudinary configuration missing: cloudName=${CLOUDINARY_CONFIG.cloudName}, uploadPreset=${CLOUDINARY_CONFIG.uploadPreset}`)
+  }
+
   const uploadedUrls = []
   const totalFiles = files.length
   
