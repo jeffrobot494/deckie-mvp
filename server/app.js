@@ -18,6 +18,9 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+// Trust proxy for Railway deployment (enables proper IP detection behind reverse proxy)
+app.set('trust proxy', true);
+
 // Security middleware with CSP configured for Cloudinary
 app.use(helmet({
   contentSecurityPolicy: {
