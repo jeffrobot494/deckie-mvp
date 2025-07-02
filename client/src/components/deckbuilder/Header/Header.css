@@ -51,15 +51,58 @@
   margin: 0;
 }
 
+.url-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.url-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
 .url-display {
   background: var(--background-secondary);
-  padding: 8px 12px;
+  padding: 6px 10px;
   border-radius: var(--border-radius);
   font-family: 'Courier New', monospace;
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   border: 1px solid var(--border-color);
   word-break: break-all;
+  flex: 1;
+  min-width: 0;
+}
+
+.copy-btn {
+  background: var(--background-primary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  color: var(--text-primary);
+  padding: 6px 8px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+}
+
+.copy-btn:hover {
+  background: var(--primary-color);
+  color: var(--primary-text);
+  border-color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+.copy-btn:active {
+  transform: scale(0.95);
 }
 
 /* Neon theme logo styling */
@@ -95,9 +138,20 @@
     font-size: 1.5rem;
   }
   
+  .url-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  
   .url-display {
     font-size: 0.8rem;
     padding: 6px 10px;
+    width: 100%;
+  }
+  
+  .copy-btn {
+    align-self: flex-end;
   }
   
   .logo-link {
