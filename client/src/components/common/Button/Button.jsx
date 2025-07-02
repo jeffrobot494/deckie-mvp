@@ -1,3 +1,4 @@
+import audioService from '../../../services/audioService'
 import './Button.css'
 
 function Button({ 
@@ -9,10 +10,18 @@ function Button({
   className = '',
   ...props 
 }) {
+  const handleClick = async (e) => {
+    await audioService.initializeOnUserGesture()
+    audioService.playButtonClick()
+    if (onClick) {
+      onClick(e)
+    }
+  }
+
   return (
     <button
       type={type}
-      onClick={onClick}
+      onClick={handleClick}
       disabled={disabled}
       className={`btn btn-${variant} ${className}`}
       {...props}

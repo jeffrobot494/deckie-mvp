@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
 
 const MAX_FILES = parseInt(process.env.MAX_FILES_PER_UPLOAD) || 250;
-const ALLOWED_THEMES = ['light', 'dark', 'neon'];
+const ALLOWED_THEMES = ['light', 'dark', 'neon', 'fantasy'];
 
 export const validateDeckieCreation = (req, res, next) => {
   const { gameName, theme, imageUrls } = req.body;
@@ -17,7 +17,7 @@ export const validateDeckieCreation = (req, res, next) => {
   }
 
   if (!theme || !ALLOWED_THEMES.includes(theme)) {
-    return res.status(400).json({ error: 'Valid theme is required (light, dark, or neon)' });
+    return res.status(400).json({ error: 'Valid theme is required (light, dark, neon, or fantasy)' });
   }
 
   if (!imageUrls || !Array.isArray(imageUrls) || imageUrls.length === 0) {

@@ -70,9 +70,15 @@
 }
 
 .remove-btn {
-  padding: 4px 8px;
-  font-size: 12px;
+  padding: 2px 6px;
+  font-size: 10px;
   min-width: auto;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.remove-btn:hover {
+  opacity: 1;
 }
 
 @media (max-width: 768px) {
@@ -89,7 +95,7 @@
   }
   
   .remove-btn {
-    padding: 3px 6px;
-    font-size: 11px;
+    padding: 2px 4px;
+    font-size: 9px;
   }
 }

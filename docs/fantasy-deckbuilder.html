@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mythic Cards - Fantasy Deckbuilder</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a0f2e 25%, #2d1b3d  50%, #1a0f2e 75%, #0f0f1a 100%);
+            background-attachment: fixed;
+            color: #f0e6d2;
+            font-family: 'Crimson Text', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 177, 66, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, rgba(139, 69, 19, 0.9) 0%, rgba(160, 82, 45, 0.9) 50%, rgba(139, 69, 19, 0.9) 100%);
+            border-bottom: 3px solid #d4af37;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+            padding: 1rem 2rem;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dragon" patternUnits="userSpaceOnUse" width="50" height="50"><path d="M25 10 L35 20 L25 30 L15 20 Z" fill="rgba(212,175,55,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dragon)"/></svg>') repeat;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #d4af37 0%, #b8860b 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
+            to { box-shadow: 0 0 30px rgba(212, 175, 55, 0.8), 0 0 40px rgba(212, 175, 55, 0.3); }
+        }
+        
+        .logo h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d4af37;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-item {
+            padding: 0.75rem 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            color: #f0e6d2;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .nav-item:hover {
+            border-color: #d4af37;
+            color: #d4af37;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        .nav-item:hover::before {
+            left: 100%;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 2rem;
+            padding: 2rem;
+            min-height: calc(100vh - 120px);
+        }
+        
+        .sidebar {
+            background: linear-gradient(180deg, rgba(47, 79, 79, 0.9) 0%, rgba(25, 25, 112, 0.9) 100%);
+            border: 2px solid #4682b4;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(70, 130, 180, 0.2);
+            backdrop-filter: blur(10px);
+            height: fit-content;
+        }
+        
+        .sidebar h3 {
+            font-family: 'Cinzel', serif;
+            color: #87ceeb;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(135, 206, 235, 0.5);
+        }
+        
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-label {
+            display: block;
+            color: #b0c4de;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .filter-select, .filter-input {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #4682b4;
+            border-radius: 8px;
+            color: #f0e6d2;
+            font-family: inherit;
+        }
+        
+        .filter-select:focus, .filter-input:focus {
+            outline: none;
+            border-color: #87ceeb;
+            box-shadow: 0 0 10px rgba(135, 206, 235, 0.3);
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+        
+        .card {
+            width: 200px;
+            height: 280px;
+            background: linear-gradient(145deg, #2c1810 0%, #8b4513 50%, #2c1810 100%);
+            border: 3px solid #d4af37;
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #d4af37, #ff6b35, #f7931e, #d4af37);
+            border-radius: 15px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+        }
+        
+        .card:hover::before {
+            opacity: 1;
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(135deg, #4a90e2 0%, #7b68ee 50%, #9370db 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .card-content {
+            padding: 1rem;
+            height: 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .card-name {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #f0e6d2;
+        }
+        
+        .deck-panel {
+            background: linear-gradient(180deg, rgba(139, 69, 19, 0.9) 0%, rgba(160, 82, 45, 0.9) 100%);
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.2);
+            height: fit-content;
+        }
+        
+        .deck-panel h3 {
+            font-family: 'Cinzel', serif;
+            color: #d4af37;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        
+        .deck-stats {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .deck-stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: #f0e6d2;
+        }
+        
+        .deck-list {
+            max-height: 300px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        
+        .deck-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 5px;
+            color: #f0e6d2;
+        }
+        
+        .save-deck-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #228b22 0%, #32cd32 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);
+        }
+        
+        .save-deck-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 139, 34, 0.5);
+        }
+        
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #d4af37;
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .sidebar, .deck-panel {
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .card {
+                width: 150px;
+                height: 210px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles" id="particles"></div>
+    
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">⚔️</div>
+                <h1>Mythic Cards</h1>
+            </div>
+            <nav class="nav">
+                <a href="#" class="nav-item">Collection</a>
+                <a href="#" class="nav-item">Deckbuilder</a>
+                <a href="#" class="nav-item">Arena</a>
+                <a href="#" class="nav-item">Forge</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <aside class="sidebar">
+            <h3>🔮 Card Filters</h3>
+            <div class="filter-group">
+                <label class="filter-label">Mana Cost</label>
+                <select class="filter-select">
+                    <option>All Costs</option>
+                    <option>0-2 Mana</option>
+                    <option>3-5 Mana</option>
+                    <option>6+ Mana</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Card Type</label>
+                <select class="filter-select">
+                    <option>All Types</option>
+                    <option>🗡️ Creatures</option>
+                    <option>⚡ Spells</option>
+                    <option>🛡️ Artifacts</option>
+                    <option>🌟 Enchantments</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Element</label>
+                <select class="filter-select">
+                    <option>All Elements</option>
+                    <option>🔥 Fire</option>
+                    <option>💧 Water</option>
+                    <option>🌍 Earth</option>
+                    <option>💨 Air</option>
+                    <option>🌙 Shadow</option>
+                    <option>☀️ Light</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Search</label>
+                <input type="text" class="filter-input" placeholder="Search cards...">
+            </div>
+        </aside>
+
+        <section class="card-grid">
+            <div class="card">
+                <div class="card-image">🐉</div>
+                <div class="card-content">
+                    <div class="card-name">Ancient Dragon</div>
+                    <div class="card-stats">
+                        <span>🔥 8</span>
+                        <span>⚔️ 12/8</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-image">🧙‍♂️</div>
+                <div class="card-content">
+                    <div class="card-name">Arcane Wizard</div>
+                    <div class="card-stats">
+                        <span>🌟 4</span>
+                        <span>⚔️ 3/5</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-image">⚡</div>
+                <div class="card-content">
+                    <div class="card-name">Lightning Bolt</div>
+                    <div class="card-stats">
+                        <span>💨 2</span>
+                        <span>💥 4 DMG</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-image">🛡️</div>
+                <div class="card-content">
+                    <div class="card-name">Sacred Shield</div>
+                    <div class="card-stats">
+                        <span>☀️ 3</span>
+                        <span>🛡️ +3 DEF</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-image">🌑</div>
+                <div class="card-content">
+                    <div class="card-name">Shadow Assassin</div>
+                    <div class="card-stats">
+                        <span>🌙 5</span>
+                        <span>⚔️ 7/3</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-image">🌊</div>
+                <div class="card-content">
+                    <div class="card-name">Tidal Wave</div>
+                    <div class="card-stats">
+                        <span>💧 6</span>
+                        <span>🌊 AOE</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-image">🏰</div>
+                <div class="card-content">
+                    <div class="card-name">Mystic Fortress</div>
+                    <div class="card-stats">
+                        <span>🌍 7</span>
+                        <span>🏰 0/15</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-image">🦄</div>
+                <div class="card-content">
+                    <div class="card-name">Pure Unicorn</div>
+                    <div class="card-stats">
+                        <span>☀️ 4</span>
+                        <span>⚔️ 4/6</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <aside class="deck-panel">
+            <h3>⚔️ Current Deck</h3>
+            <div class="deck-stats">
+                <div class="deck-stat">
+                    <span>Total Cards:</span>
+                    <span>28/60</span>
+                </div>
+                <div class="deck-stat">
+                    <span>Avg. Mana Cost:</span>
+                    <span>4.2</span>
+                </div>
+                <div class="deck-stat">
+                    <span>Elements:</span>
+                    <span>3</span>
+                </div>
+            </div>
+            
+            <div class="deck-list">
+                <div class="deck-item">
+                    <span>Ancient Dragon</span>
+                    <span>x1</span>
+                </div>
+                <div class="deck-item">
+                    <span>Arcane Wizard</span>
+                    <span>x2</span>
+                </div>
+                <div class="deck-item">
+                    <span>Lightning Bolt</span>
+                    <span>x3</span>
+                </div>
+                <div class="deck-item">
+                    <span>Sacred Shield</span>
+                    <span>x2</span>
+                </div>
+                <div class="deck-item">
+                    <span>Shadow Assassin</span>
+                    <span>x1</span>
+                </div>
+            </div>
+            
+            <button class="save-deck-btn">💾 Save Deck</button>
+        </aside>
+    </main>
+
+    <script>
+        // Create floating magical particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (4 + Math.random() * 4) + 's';
+                
+                // Random colors for particles
+                const colors = ['#d4af37', '#87ceeb', '#ff6b35', '#32cd32', '#9370db'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Add hover effects to cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.zIndex = '10';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.zIndex = '1';
+            });
+            
+            card.addEventListener('click', function() {
+                // Add card to deck with animation
+                this.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+        
+        // Initialize particles
+        createParticles();
+        
+        // Add some dynamic background effects
+        setInterval(() => {
+            const newParticle = document.createElement('div');
+            newParticle.classList.add('particle');
+            newParticle.style.left = Math.random() * 100 + '%';
+            newParticle.style.animationDuration = (4 + Math.random() * 4) + 's';
+            
+            const colors = ['#d4af37', '#87ceeb', '#ff6b35', '#32cd32', '#9370db'];
+            newParticle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            document.getElementById('particles').appendChild(newParticle);
+            
+            // Remove particle after animation
+            setTimeout(() => {
+                if (newParticle.parentNode) {
+                    newParticle.parentNode.removeChild(newParticle);
+                }
+            }, 8000);
+        }, 500);
+    </script>
+</body>
+</html>

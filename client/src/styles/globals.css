@@ -121,3 +121,813 @@ a:hover {
 .card:hover {
   box-shadow: var(--shadow-large);
 }
+
+/* Cyberpunk Neon Theme Enhancements */
+[data-theme="neon"] {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Intense Black/Yellow Cyberpunk Background */
+[data-theme="neon"] body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -3;
+  background: 
+    radial-gradient(ellipse at 20% 30%, rgba(255, 255, 0, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(255, 204, 0, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(255, 255, 153, 0.08) 0%, transparent 50%),
+    linear-gradient(135deg, #000000 0%, #1a1a00 25%, #0a0a0a 50%, #1a1a00 75%, #000000 100%);
+  background-size: 800% 800%, 800% 800%, 600% 600%, 400% 400%;
+  animation: intenseCyberpunkGradient 6s ease infinite;
+}
+
+/* Black/Yellow Moving Grid Pattern */
+[data-theme="neon"] body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 120%;
+  height: 120%;
+  z-index: -2;
+  background-image: 
+    linear-gradient(rgba(255, 255, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(rgba(255, 204, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 204, 0, 0.06) 1px, transparent 1px);
+  background-size: 60px 60px, 60px 60px, 40px 40px, 40px 40px;
+  animation: gridMove 15s linear infinite;
+  opacity: 0.7;
+}
+
+/* Black/Yellow Cyberpunk Scanlines Effect */
+[data-theme="neon"] .deckbuilder-page::before,
+[data-theme="neon"] .landing-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 0, 0.05) 2px,
+    rgba(255, 255, 0, 0.05) 3px,
+    transparent 3px,
+    transparent 4px,
+    rgba(255, 204, 0, 0.03) 4px,
+    rgba(255, 204, 0, 0.03) 5px
+  );
+  z-index: 1;
+  pointer-events: none;
+  animation: scanlineFlicker 2s ease-in-out infinite alternate;
+}
+
+/* Black/Yellow Floating Particles Effect - Reduced Glow */
+[data-theme="neon"] .main-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 0, 0.075) 1px, transparent 1px),
+    radial-gradient(circle at 40% 20%, rgba(255, 204, 0, 0.06) 1px, transparent 1px),
+    radial-gradient(circle at 90% 40%, rgba(255, 255, 0, 0.075) 1px, transparent 1px),
+    radial-gradient(circle at 60% 90%, rgba(255, 204, 0, 0.06) 1px, transparent 1px),
+    radial-gradient(circle at 15% 80%, rgba(255, 255, 153, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 85% 15%, rgba(255, 255, 153, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px, 80px 80px, 40px 40px, 90px 90px, 70px 70px, 60px 60px;
+  animation: floatingParticles 12s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Reduced Glow Effects for Neon Theme Headers */
+[data-theme="neon"] h1,
+[data-theme="neon"] h2,
+[data-theme="neon"] h3 {
+  text-shadow: 
+    0 0 4px var(--primary-color),
+    0 0 8px var(--primary-color),
+    0 0 12px var(--primary-color),
+    0 0 16px var(--secondary-color);
+  animation: intensiveTextGlow 0.8s ease-in-out infinite alternate;
+}
+
+[data-theme="neon"] .card {
+  background: rgba(26, 26, 46, 0.9);
+  border: 1px solid var(--primary-color);
+  box-shadow: 
+    inset 0 0 20px rgba(0, 255, 136, 0.1),
+    0 0 20px rgba(0, 255, 136, 0.2);
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+[data-theme="neon"] .card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: subtract;
+  opacity: 0.6;
+  animation: borderGlow 3s ease-in-out infinite alternate;
+}
+
+[data-theme="neon"] .card:hover {
+  box-shadow: 
+    inset 0 0 30px rgba(0, 255, 136, 0.2),
+    0 0 40px rgba(0, 255, 136, 0.4),
+    0 0 60px rgba(0, 255, 136, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Intense Cyberpunk Keyframe Animations */
+@keyframes intenseCyberpunkGradient {
+  0% { 
+    background-position: 0% 50%, 0% 50%, 0% 50%, 0% 50%; 
+  }
+  25% { 
+    background-position: 50% 0%, 25% 75%, 75% 25%, 25% 75%; 
+  }
+  50% { 
+    background-position: 100% 50%, 50% 100%, 100% 50%, 50% 100%; 
+  }
+  75% { 
+    background-position: 50% 100%, 75% 25%, 25% 75%, 75% 25%; 
+  }
+  100% { 
+    background-position: 0% 50%, 0% 50%, 0% 50%, 0% 50%; 
+  }
+}
+
+@keyframes gridMove {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(15px, 15px) rotate(90deg); }
+  50% { transform: translate(30px, 30px) rotate(180deg); }
+  75% { transform: translate(45px, 45px) rotate(270deg); }
+  100% { transform: translate(60px, 60px) rotate(360deg); }
+}
+
+@keyframes scanlineFlicker {
+  0% { opacity: 0.2; }
+  25% { opacity: 0.4; }
+  50% { opacity: 0.6; }
+  75% { opacity: 0.4; }
+  100% { opacity: 0.2; }
+}
+
+@keyframes floatingParticles {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg) scale(1);
+    opacity: 0.4;
+  }
+  25% { 
+    transform: translateY(-15px) rotate(90deg) scale(1.1);
+    opacity: 0.6;
+  }
+  50% { 
+    transform: translateY(-30px) rotate(180deg) scale(1.2);
+    opacity: 0.8;
+  }
+  75% { 
+    transform: translateY(-15px) rotate(270deg) scale(1.1);
+    opacity: 0.6;
+  }
+}
+
+@keyframes intensiveTextGlow {
+  0% { 
+    text-shadow: 
+      0 0 4px var(--primary-color),
+      0 0 8px var(--primary-color),
+      0 0 12px var(--primary-color),
+      0 0 16px var(--secondary-color);
+  }
+  100% { 
+    text-shadow: 
+      0 0 8px var(--primary-color),
+      0 0 16px var(--primary-color),
+      0 0 24px var(--primary-color),
+      0 0 32px var(--secondary-color),
+      0 0 40px var(--secondary-color);
+  }
+}
+
+@keyframes borderGlow {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* Cyberpunk Button Enhancements - Black with Yellow Trim */
+[data-theme="neon"] button {
+  position: relative;
+  overflow: hidden;
+  background: #000000;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+  box-shadow: 
+    inset 0 0 5px rgba(255, 255, 0, 0.05),
+    0 0 5px rgba(255, 255, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+[data-theme="neon"] button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 0, 0.15), transparent);
+  transition: left 0.5s;
+}
+
+[data-theme="neon"] button:hover::before {
+  left: 100%;
+}
+
+[data-theme="neon"] button:hover:not(:disabled) {
+  background: rgba(255, 255, 0, 0.1);
+  box-shadow: 
+    inset 0 0 10px rgba(255, 255, 0, 0.1),
+    0 0 10px rgba(255, 255, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+[data-theme="neon"] button:disabled {
+  background: #333333;
+  color: #666666;
+  border-color: #666666;
+  box-shadow: none;
+  opacity: 0.5;
+}
+
+/* Epic Fantasy Medieval Theme Enhancements */
+[data-theme="fantasy"] {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Stone Brickwork Background with Texture */
+[data-theme="fantasy"] body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -3;
+  background: 
+    radial-gradient(ellipse at 20% 30%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(220, 38, 38, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(100, 116, 139, 0.05) 0%, transparent 50%),
+    linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #334155 75%, #1e293b 100%);
+  background-size: 600% 600%, 600% 600%, 400% 400%, 300% 300%;
+  animation: stoneShiftingGradient 12s ease infinite;
+}
+
+/* Stone Brick Pattern with Ivy Overlay */
+[data-theme="fantasy"] body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 120%;
+  height: 120%;
+  z-index: -2;
+  background-image: 
+    linear-gradient(rgba(100, 116, 139, 0.15) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(100, 116, 139, 0.15) 2px, transparent 2px),
+    linear-gradient(rgba(34, 197, 94, 0.08) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(34, 197, 94, 0.05) 1px, transparent 1px);
+  background-size: 120px 60px, 120px 60px, 20px 20px, 40px 40px;
+  animation: stoneBricksWithIvy 25s linear infinite;
+  opacity: 0.3;
+}
+
+/* Ivy Draping and Magical Sparkles */
+[data-theme="fantasy"] .main-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 15% 10%, rgba(34, 197, 94, 0.12) 3px, transparent 3px),
+    radial-gradient(circle at 85% 15%, rgba(34, 197, 94, 0.08) 2px, transparent 2px),
+    radial-gradient(circle at 25% 80%, rgba(59, 130, 246, 0.06) 1px, transparent 1px),
+    radial-gradient(circle at 75% 85%, rgba(59, 130, 246, 0.06) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(34, 197, 94, 0.15) 0%, transparent 20%),
+    linear-gradient(170deg, rgba(34, 197, 94, 0.1) 0%, transparent 30%);
+  background-size: 40px 40px, 60px 60px, 80px 80px, 90px 90px, 100px 800px, 80px 600px;
+  background-position: 0% 0%, 100% 0%, 20% 100%, 80% 100%, 10% 0%, 90% 0%;
+  animation: ivyDraping 18s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Glowing Text Effects for Fantasy Theme */
+[data-theme="fantasy"] h1,
+[data-theme="fantasy"] h2,
+[data-theme="fantasy"] h3 {
+  text-shadow: 
+    0 0 8px var(--primary-color),
+    0 0 16px rgba(59, 130, 246, 0.5),
+    0 0 24px rgba(34, 197, 94, 0.3);
+  animation: enchantedGlow 2s ease-in-out infinite alternate;
+}
+
+[data-theme="fantasy"] .card {
+  background: rgba(26, 22, 18, 0.9);
+  border: 1px solid var(--primary-color);
+  box-shadow: 
+    inset 0 0 20px rgba(139, 69, 19, 0.1),
+    0 0 15px rgba(212, 175, 55, 0.2);
+  backdrop-filter: blur(8px);
+  position: relative;
+}
+
+[data-theme="fantasy"] .card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(45deg, var(--primary-color), var(--tertiary-color), var(--secondary-color), var(--primary-color));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: subtract;
+  opacity: 0.4;
+  animation: runicBorder 4s ease-in-out infinite alternate;
+}
+
+[data-theme="fantasy"] .card:hover {
+  box-shadow: 
+    inset 0 0 30px rgba(139, 69, 19, 0.2),
+    0 0 25px rgba(212, 175, 55, 0.4),
+    0 0 40px rgba(45, 80, 22, 0.2);
+  transform: translateY(-3px);
+}
+
+/* Fantasy Keyframe Animations */
+@keyframes stoneShiftingGradient {
+  0%, 100% { 
+    background-position: 0% 50%, 0% 50%, 0% 50%, 0% 50%; 
+  }
+  25% { 
+    background-position: 30% 20%, 20% 80%, 70% 30%, 25% 75%; 
+  }
+  50% { 
+    background-position: 70% 50%, 60% 100%, 100% 60%, 50% 100%; 
+  }
+  75% { 
+    background-position: 40% 80%, 80% 30%, 30% 70%, 75% 25%; 
+  }
+}
+
+@keyframes stoneBricksWithIvy {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(30px, 15px) rotate(0deg); }
+  50% { transform: translate(60px, 30px) rotate(0deg); }
+  75% { transform: translate(90px, 45px) rotate(0deg); }
+  100% { transform: translate(120px, 60px) rotate(0deg); }
+}
+
+@keyframes ivyDraping {
+  0%, 100% { 
+    background-position: 0% 0%, 100% 0%, 20% 100%, 80% 100%, 10% 0%, 90% 0%;
+    opacity: 0.4;
+  }
+  25% { 
+    background-position: 5% 5%, 95% 5%, 25% 95%, 75% 95%, 15% 5%, 85% 5%;
+    opacity: 0.6;
+  }
+  50% { 
+    background-position: 10% 10%, 90% 10%, 30% 90%, 70% 90%, 20% 10%, 80% 10%;
+    opacity: 0.8;
+  }
+  75% { 
+    background-position: 5% 5%, 95% 5%, 25% 95%, 75% 95%, 15% 5%, 85% 5%;
+    opacity: 0.6;
+  }
+}
+
+@keyframes enchantedGlow {
+  0% { 
+    text-shadow: 
+      0 0 8px var(--primary-color),
+      0 0 16px rgba(59, 130, 246, 0.5),
+      0 0 24px rgba(34, 197, 94, 0.3);
+  }
+  100% { 
+    text-shadow: 
+      0 0 12px var(--primary-color),
+      0 0 24px rgba(59, 130, 246, 0.7),
+      0 0 36px rgba(34, 197, 94, 0.5),
+      0 0 48px rgba(220, 38, 38, 0.3);
+  }
+}
+
+@keyframes runicBorder {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.8; }
+}
+
+/* Fantasy Button Enhancements - Medieval Style */
+[data-theme="fantasy"] button {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #2d1810, #1a1612);
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  font-weight: bold;
+  box-shadow: 
+    inset 0 0 10px rgba(139, 69, 19, 0.1),
+    0 0 10px rgba(212, 175, 55, 0.2);
+  transition: all 0.3s ease;
+}
+
+[data-theme="fantasy"] button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), rgba(139, 69, 19, 0.1), transparent);
+  transition: left 0.6s;
+}
+
+[data-theme="fantasy"] button:hover::before {
+  left: 100%;
+}
+
+[data-theme="fantasy"] button:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(139, 69, 19, 0.1));
+  box-shadow: 
+    inset 0 0 15px rgba(139, 69, 19, 0.2),
+    0 0 15px rgba(212, 175, 55, 0.4),
+    0 0 25px rgba(45, 80, 22, 0.2);
+  transform: translateY(-1px);
+}
+
+[data-theme="fantasy"] button:disabled {
+  background: #2d1810;
+  color: #6b7280;
+  border-color: #6b7280;
+  box-shadow: none;
+  opacity: 0.6;
+}
+
+/* Dark Theme Trading Card Enhancements */
+[data-theme="dark"] {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Dark Theme - Override body background completely */
+[data-theme="dark"] body {
+  background: 
+    radial-gradient(ellipse at 15% 25%, rgba(103, 126, 234, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 75%, rgba(156, 163, 175, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(75, 85, 99, 0.08) 0%, transparent 50%),
+    linear-gradient(135deg, #1f2937 0%, #374151 25%, #4b5563 50%, #374151 75%, #1f2937 100%) !important;
+  background-size: 500% 500%, 500% 500%, 300% 300%, 200% 200%;
+  background-attachment: fixed;
+  animation: tradingCardGradient 8s ease infinite;
+}
+
+/* Floating Trading Cards and Dice - Direct on body */
+[data-theme="dark"] body::after {
+  content: '🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 150%;
+  height: 150%;
+  z-index: 0;
+  font-size: 32px;
+  color: rgba(156, 163, 175, 0.25);
+  white-space: pre-wrap;
+  word-spacing: 80px;
+  line-height: 120px;
+  animation: floatingCards 15s linear infinite;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* Ensure main content and landing page appear above floating cards */
+[data-theme="dark"] .main-content,
+[data-theme="dark"] .landing-page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+/* Subtle Card Pattern Overlay - Apply to both deckbuilder and landing pages */
+[data-theme="dark"] .main-content::before,
+[data-theme="dark"] .landing-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(103, 126, 234, 0.08) 3px, transparent 3px),
+    radial-gradient(circle at 80% 20%, rgba(156, 163, 175, 0.06) 2px, transparent 2px),
+    radial-gradient(circle at 40% 80%, rgba(75, 85, 99, 0.05) 2px, transparent 2px),
+    radial-gradient(circle at 70% 60%, rgba(103, 126, 234, 0.08) 3px, transparent 3px);
+  background-size: 80px 80px, 120px 120px, 60px 60px, 100px 100px;
+  animation: cardPatternShift 15s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Enhanced Dark Theme Cards */
+[data-theme="dark"] .card {
+  background: linear-gradient(145deg, #374151 0%, #4b5563 50%, #374151 100%);
+  border: 1px solid rgba(103, 126, 234, 0.3);
+  box-shadow: 
+    inset 0 0 15px rgba(103, 126, 234, 0.05),
+    0 0 20px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+[data-theme="dark"] .card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(45deg, rgba(103, 126, 234, 0.4), rgba(156, 163, 175, 0.2), rgba(103, 126, 234, 0.4));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: subtract;
+  opacity: 0.3;
+  animation: cardBorderGlow 3s ease-in-out infinite alternate;
+}
+
+[data-theme="dark"] .card:hover {
+  box-shadow: 
+    inset 0 0 25px rgba(103, 126, 234, 0.1),
+    0 0 30px rgba(103, 126, 234, 0.2),
+    0 0 50px rgba(0, 0, 0, 0.4);
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* Dark Theme Button Enhancements */
+[data-theme="dark"] button {
+  background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+  border: 2px solid rgba(103, 126, 234, 0.4);
+  color: #f3f4f6;
+  box-shadow: 
+    inset 0 0 10px rgba(103, 126, 234, 0.05),
+    0 0 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(103, 126, 234, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+[data-theme="dark"] button:hover::before {
+  left: 100%;
+}
+
+[data-theme="dark"] button:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(103, 126, 234, 0.1), rgba(75, 85, 99, 0.1));
+  box-shadow: 
+    inset 0 0 15px rgba(103, 126, 234, 0.1),
+    0 0 20px rgba(103, 126, 234, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Enhanced Fantasy Theme Background */
+[data-theme="fantasy"] body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -3;
+  background: 
+    radial-gradient(circle at 15% 25%, rgba(212, 175, 55, 0.12) 0%, transparent 30%),
+    radial-gradient(circle at 85% 15%, rgba(255, 107, 53, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 30% 80%, rgba(135, 206, 235, 0.06) 0%, transparent 35%),
+    radial-gradient(circle at 70% 60%, rgba(138, 43, 226, 0.05) 0%, transparent 45%),
+    linear-gradient(135deg, #1a0f2e 0%, #2d1b3d 25%, #1a0f2e 50%, #0f0f1a 75%, #1a0f2e 100%);
+  background-size: 300% 300%, 400% 400%, 350% 350%, 450% 450%, 200% 200%;
+  animation: fantasyEnergyBalls 12s ease infinite;
+}
+
+/* Magical Energy Balls and Swirls */
+[data-theme="fantasy"] body::after {
+  content: '✨ 🌟 💫 ⭐ 🔮 💎 🪙 ✨ 🌠 ⚡ 🌟 🔥 💫 🪙 ⭐ 🔮';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 120%;
+  height: 120%;
+  z-index: -2;
+  font-size: 20px;
+  color: rgba(212, 175, 55, 0.3);
+  white-space: pre-wrap;
+  word-spacing: 80px;
+  line-height: 120px;
+  animation: magicalFloating 18s linear infinite;
+  pointer-events: none;
+}
+
+/* Spinning Gold Coins and Energy Swirls - Apply to both deckbuilder and landing pages */
+[data-theme="fantasy"] .main-content::before,
+[data-theme="fantasy"] .landing-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.15) 4px, transparent 4px),
+    radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.12) 3px, transparent 3px),
+    radial-gradient(circle at 40% 80%, rgba(135, 206, 235, 0.08) 2px, transparent 2px),
+    radial-gradient(circle at 70% 60%, rgba(138, 43, 226, 0.06) 2px, transparent 2px),
+    conic-gradient(at 15% 25%, rgba(212, 175, 55, 0.1) 0deg, transparent 90deg, rgba(212, 175, 55, 0.1) 180deg, transparent 270deg),
+    conic-gradient(at 85% 75%, rgba(255, 107, 53, 0.08) 0deg, transparent 120deg, rgba(255, 107, 53, 0.08) 240deg, transparent 360deg);
+  background-size: 60px 60px, 80px 80px, 100px 100px, 90px 90px, 150px 150px, 120px 120px;
+  animation: goldCoinsAndSwirls 16s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Ensure landing page has relative positioning for pseudo-elements */
+[data-theme="fantasy"] .landing-page {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Dark Theme Keyframes */
+@keyframes tradingCardGradient {
+  0%, 100% { 
+    background-position: 0% 50%, 0% 50%, 0% 50%, 0% 50%; 
+  }
+  25% { 
+    background-position: 25% 25%, 30% 70%, 60% 40%, 25% 75%; 
+  }
+  50% { 
+    background-position: 50% 100%, 70% 30%, 100% 80%, 50% 100%; 
+  }
+  75% { 
+    background-position: 75% 25%, 40% 80%, 30% 20%, 75% 25%; 
+  }
+}
+
+@keyframes floatingCards {
+  0% { 
+    transform: translate(0, 0) rotate(0deg); 
+    opacity: 0.6;
+  }
+  25% { 
+    transform: translate(50px, -30px) rotate(90deg); 
+    opacity: 0.4;
+  }
+  50% { 
+    transform: translate(100px, -60px) rotate(180deg); 
+    opacity: 0.6;
+  }
+  75% { 
+    transform: translate(150px, -30px) rotate(270deg); 
+    opacity: 0.4;
+  }
+  100% { 
+    transform: translate(200px, 0px) rotate(360deg); 
+    opacity: 0.6;
+  }
+}
+
+@keyframes cardPatternShift {
+  0%, 100% { 
+    background-position: 0% 0%, 100% 0%, 20% 100%, 80% 100%;
+    opacity: 0.3;
+  }
+  50% { 
+    background-position: 50% 50%, 50% 50%, 70% 50%, 30% 50%;
+    opacity: 0.5;
+  }
+}
+
+@keyframes cardBorderGlow {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.6; }
+}
+
+/* Enhanced Fantasy Theme Keyframes */
+@keyframes fantasyEnergyBalls {
+  0%, 100% { 
+    background-position: 0% 50%, 0% 50%, 0% 50%, 0% 50%, 0% 50%; 
+  }
+  20% { 
+    background-position: 30% 20%, 20% 80%, 70% 30%, 40% 60%, 25% 75%; 
+  }
+  40% { 
+    background-position: 70% 80%, 60% 40%, 100% 60%, 80% 20%, 50% 100%; 
+  }
+  60% { 
+    background-position: 40% 60%, 80% 30%, 30% 70%, 60% 80%, 75% 25%; 
+  }
+  80% { 
+    background-position: 80% 40%, 40% 70%, 60% 20%, 20% 40%, 100% 50%; 
+  }
+}
+
+@keyframes magicalFloating {
+  0% { 
+    transform: translate(0, 0) rotate(0deg) scale(1); 
+    opacity: 0.8;
+  }
+  25% { 
+    transform: translate(60px, -40px) rotate(90deg) scale(1.2); 
+    opacity: 0.6;
+  }
+  50% { 
+    transform: translate(120px, -20px) rotate(180deg) scale(0.8); 
+    opacity: 1;
+  }
+  75% { 
+    transform: translate(180px, -60px) rotate(270deg) scale(1.1); 
+    opacity: 0.7;
+  }
+  100% { 
+    transform: translate(240px, 0px) rotate(360deg) scale(1); 
+    opacity: 0.8;
+  }
+}
+
+@keyframes goldCoinsAndSwirls {
+  0%, 100% { 
+    background-position: 0% 0%, 100% 0%, 20% 100%, 80% 100%, 10% 10%, 90% 90%;
+    transform: rotate(0deg);
+    opacity: 0.4;
+  }
+  16% { 
+    background-position: 20% 20%, 80% 20%, 40% 80%, 60% 80%, 30% 30%, 70% 70%;
+    transform: rotate(60deg);
+    opacity: 0.6;
+  }
+  33% { 
+    background-position: 40% 40%, 60% 40%, 60% 60%, 40% 60%, 50% 50%, 50% 50%;
+    transform: rotate(120deg);
+    opacity: 0.8;
+  }
+  50% { 
+    background-position: 60% 60%, 40% 60%, 80% 40%, 20% 40%, 70% 70%, 30% 30%;
+    transform: rotate(180deg);
+    opacity: 0.6;
+  }
+  66% { 
+    background-position: 80% 80%, 20% 80%, 100% 20%, 0% 20%, 90% 90%, 10% 10%;
+    transform: rotate(240deg);
+    opacity: 0.8;
+  }
+  83% { 
+    background-position: 100% 100%, 0% 100%, 80% 0%, 20% 0%, 80% 80%, 20% 20%;
+    transform: rotate(300deg);
+    opacity: 0.6;
+  }
+}

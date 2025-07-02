@@ -46,9 +46,385 @@
   transform: translateY(-2px) scale(0.98);
 }
 
+/* Styles for cards that are in the deck */
+.game-card.in-deck {
+  border-color: var(--primary-color);
+  box-shadow: var(--shadow-medium);
+  background: var(--background-primary);
+  cursor: pointer;
+}
+
+/* Visual feedback tooltip for right-click interactions */
+.game-card.in-deck:hover::after {
+  content: "Right-click to remove";
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  white-space: nowrap;
+  opacity: 0;
+  animation: fadeInTooltip 0.3s ease-in-out 0.5s forwards;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes fadeInTooltip {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.game-card.in-deck:hover {
+  border-color: var(--primary-hover);
+  box-shadow: var(--shadow-large);
+}
+
+/* Card count badge */
+.card-count-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--primary-color);
+  color: var(--primary-text);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: var(--shadow-small);
+  z-index: 1;
+}
+
+/* Theme-specific enhancements for cards in deck */
+[data-theme="dark"] .game-card.in-deck {
+  background: linear-gradient(135deg, var(--background-secondary), var(--background-primary));
+}
+
+/* Enhanced Cyberpunk Card Styling - Black/Yellow */
+[data-theme="neon"] .game-card {
+  background: rgba(17, 17, 17, 0.9);
+  border: 1px solid rgba(255, 255, 0, 0.4);
+  box-shadow: 
+    inset 0 0 20px rgba(255, 255, 0, 0.02),
+    0 0 10px rgba(255, 204, 0, 0.075);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="neon"] .game-card::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: -100%;
+  width: 100%;
+  height: calc(100% - 4px);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 0, 0.2), rgba(255, 204, 0, 0.1), transparent);
+  transition: left 0.6s ease;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+[data-theme="neon"] .game-card:hover::before {
+  left: 100%;
+}
+
+[data-theme="neon"] .game-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: 
+    inset 0 0 30px rgba(255, 255, 0, 0.0375),
+    0 0 20px rgba(255, 255, 0, 0.125),
+    0 0 40px rgba(255, 204, 0, 0.075);
+  transform: translateY(-8px) scale(1.02);
+}
+
+[data-theme="neon"] .game-card.in-deck {
+  background: rgba(17, 17, 17, 0.95);
+  border: 2px solid var(--primary-color);
+  box-shadow: 
+    inset 0 0 30px rgba(255, 255, 0, 0.05),
+    0 0 20px rgba(255, 255, 0, 0.15),
+    0 0 40px rgba(255, 204, 0, 0.1);
+  animation: cyberpunkPulse 2s ease-in-out infinite alternate;
+}
+
+/* Remove the problematic ::after border overlay */
+
+[data-theme="neon"] .game-card.in-deck:hover {
+  box-shadow: 
+    inset 0 0 40px rgba(255, 255, 0, 0.075),
+    0 0 30px rgba(255, 255, 0, 0.2),
+    0 0 60px rgba(255, 204, 0, 0.15),
+    0 0 100px rgba(255, 204, 0, 0.075);
+  transform: translateY(-12px) scale(1.05);
+}
+
+[data-theme="neon"] .card-count-badge {
+  background: linear-gradient(45deg, var(--primary-color), var(--tertiary-color));
+  box-shadow: 
+    0 0 15px rgba(255, 255, 0, 0.9),
+    0 0 25px rgba(255, 204, 0, 0.6),
+    inset 0 0 10px rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 0, 0.7);
+  animation: badgeGlow 1s ease-in-out infinite alternate;
+  z-index: 10;
+  font-weight: 900;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+  color: #000000;
+}
+
+[data-theme="neon"] .card-image {
+  filter: contrast(1.1) brightness(1.05) saturate(1.2);
+  transition: filter 0.3s ease;
+  position: relative;
+  z-index: 0;
+}
+
+[data-theme="neon"] .game-card.in-deck .card-image {
+  filter: contrast(1.2) brightness(1.1) saturate(1.4);
+}
+
+[data-theme="neon"] .card-placeholder {
+  background: linear-gradient(45deg, 
+    rgba(26, 26, 46, 0.9), 
+    rgba(22, 33, 62, 0.9), 
+    rgba(15, 20, 25, 0.9)
+  );
+  border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+[data-theme="neon"] .card-name {
+  color: var(--primary-color);
+  text-shadow: 0 0 8px var(--primary-color);
+  font-weight: bold;
+  animation: textShimmer 2s ease-in-out infinite alternate;
+}
+
+/* Intense Cyberpunk Animations - Black/Yellow */
+@keyframes cyberpunkPulse {
+  0% { 
+    box-shadow: 
+      inset 0 0 30px rgba(255, 255, 0, 0.05),
+      0 0 20px rgba(255, 255, 0, 0.15),
+      0 0 40px rgba(255, 204, 0, 0.1);
+  }
+  100% { 
+    box-shadow: 
+      inset 0 0 40px rgba(255, 255, 0, 0.075),
+      0 0 30px rgba(255, 255, 0, 0.2),
+      0 0 60px rgba(255, 204, 0, 0.15);
+  }
+}
+
+/* borderShimmer animation removed - no longer needed */
+
+@keyframes badgeGlow {
+  0% { 
+    box-shadow: 
+      0 0 15px rgba(255, 255, 0, 0.9),
+      0 0 25px rgba(255, 204, 0, 0.6),
+      inset 0 0 10px rgba(255, 255, 255, 0.2);
+  }
+  100% { 
+    box-shadow: 
+      0 0 25px rgba(255, 255, 0, 1),
+      0 0 35px rgba(255, 204, 0, 0.8),
+      0 0 45px rgba(255, 255, 0, 0.4),
+      inset 0 0 15px rgba(255, 255, 255, 0.3);
+  }
+}
+
+@keyframes textShimmer {
+  0% { 
+    text-shadow: 0 0 8px var(--primary-color);
+    color: var(--primary-color);
+  }
+  50% { 
+    text-shadow: 
+      0 0 12px var(--primary-color),
+      0 0 20px var(--tertiary-color);
+    color: var(--tertiary-color);
+  }
+  100% { 
+    text-shadow: 
+      0 0 16px var(--text-tertiary),
+      0 0 24px var(--primary-color);
+    color: var(--text-tertiary);
+  }
+}
+
+/* Epic Fantasy Card Styling - Medieval Theme */
+[data-theme="fantasy"] .game-card {
+  background: rgba(26, 22, 18, 0.9);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  box-shadow: 
+    inset 0 0 15px rgba(139, 69, 19, 0.08),
+    0 0 10px rgba(212, 175, 55, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="fantasy"] .game-card::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: -100%;
+  width: 100%;
+  height: calc(100% - 4px);
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.15), rgba(139, 69, 19, 0.08), transparent);
+  transition: left 0.8s ease;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+[data-theme="fantasy"] .game-card:hover::before {
+  left: 100%;
+}
+
+[data-theme="fantasy"] .game-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: 
+    inset 0 0 25px rgba(139, 69, 19, 0.12),
+    0 0 15px rgba(212, 175, 55, 0.4),
+    0 0 30px rgba(45, 80, 22, 0.2);
+  transform: translateY(-6px) scale(1.02);
+}
+
+[data-theme="fantasy"] .game-card.in-deck {
+  background: rgba(26, 22, 18, 0.95);
+  border: 2px solid var(--primary-color);
+  box-shadow: 
+    inset 0 0 20px rgba(139, 69, 19, 0.15),
+    0 0 15px rgba(212, 175, 55, 0.5),
+    0 0 30px rgba(45, 80, 22, 0.3);
+  animation: enchantedPulse 3s ease-in-out infinite alternate;
+}
+
+[data-theme="fantasy"] .game-card.in-deck:hover {
+  box-shadow: 
+    inset 0 0 30px rgba(139, 69, 19, 0.2),
+    0 0 20px rgba(212, 175, 55, 0.7),
+    0 0 40px rgba(45, 80, 22, 0.4),
+    0 0 60px rgba(218, 165, 32, 0.2);
+  transform: translateY(-10px) scale(1.05);
+}
+
+[data-theme="fantasy"] .card-count-badge {
+  background: linear-gradient(45deg, var(--primary-color), var(--tertiary-color));
+  box-shadow: 
+    0 0 10px rgba(212, 175, 55, 0.8),
+    0 0 20px rgba(139, 69, 19, 0.5),
+    inset 0 0 8px rgba(45, 80, 22, 0.2);
+  border: 1px solid rgba(212, 175, 55, 0.6);
+  animation: runicGlow 2s ease-in-out infinite alternate;
+  z-index: 10;
+  font-weight: 900;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+  color: #2d1810;
+}
+
+[data-theme="fantasy"] .card-image {
+  filter: contrast(1.1) brightness(1.05) saturate(1.1) sepia(0.1);
+  transition: filter 0.3s ease;
+  position: relative;
+  z-index: 0;
+}
+
+[data-theme="fantasy"] .game-card.in-deck .card-image {
+  filter: contrast(1.2) brightness(1.1) saturate(1.3) sepia(0.15);
+}
+
+[data-theme="fantasy"] .card-placeholder {
+  background: linear-gradient(45deg, 
+    rgba(26, 22, 18, 0.9), 
+    rgba(45, 24, 16, 0.9), 
+    rgba(15, 13, 10, 0.9)
+  );
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+[data-theme="fantasy"] .card-name {
+  color: var(--primary-color);
+  text-shadow: 0 0 6px var(--primary-color);
+  font-weight: bold;
+  animation: runicText 3s ease-in-out infinite alternate;
+}
+
+/* Epic Fantasy Animations */
+@keyframes enchantedPulse {
+  0% { 
+    box-shadow: 
+      inset 0 0 20px rgba(139, 69, 19, 0.15),
+      0 0 15px rgba(212, 175, 55, 0.5),
+      0 0 30px rgba(45, 80, 22, 0.3);
+  }
+  100% { 
+    box-shadow: 
+      inset 0 0 25px rgba(139, 69, 19, 0.2),
+      0 0 20px rgba(212, 175, 55, 0.7),
+      0 0 40px rgba(45, 80, 22, 0.4);
+  }
+}
+
+@keyframes runicGlow {
+  0% { 
+    box-shadow: 
+      0 0 10px rgba(212, 175, 55, 0.8),
+      0 0 20px rgba(139, 69, 19, 0.5),
+      inset 0 0 8px rgba(45, 80, 22, 0.2);
+  }
+  100% { 
+    box-shadow: 
+      0 0 15px rgba(212, 175, 55, 1),
+      0 0 25px rgba(139, 69, 19, 0.7),
+      0 0 35px rgba(212, 175, 55, 0.3),
+      inset 0 0 12px rgba(45, 80, 22, 0.3);
+  }
+}
+
+@keyframes runicText {
+  0% { 
+    text-shadow: 0 0 6px var(--primary-color);
+    color: var(--primary-color);
+  }
+  50% { 
+    text-shadow: 
+      0 0 10px var(--primary-color),
+      0 0 15px var(--tertiary-color);
+    color: var(--tertiary-color);
+  }
+  100% { 
+    text-shadow: 
+      0 0 12px var(--text-tertiary),
+      0 0 18px var(--primary-color);
+    color: var(--text-tertiary);
+  }
+}
 
 @media (max-width: 768px) {
   .card-name {
     font-size: 10px;
+  }
+  
+  .card-count-badge {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    top: 6px;
+    right: 6px;
   }
 }

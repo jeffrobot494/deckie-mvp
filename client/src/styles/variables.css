@@ -60,28 +60,84 @@
   --shadow-large: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
 
-/* Neon theme */
+/* Enhanced Neon Cyberpunk theme - Black/Yellow */
 [data-theme="neon"] {
-  --primary-color: #00ff88;
-  --primary-hover: #00cc66;
-  --primary-text: #1a1a2e;
+  --primary-color: #ffff00;
+  --primary-hover: #ffff66;
+  --primary-text: #000000;
   
-  --secondary-color: #00ccff;
-  --secondary-hover: #0099cc;
-  --secondary-text: #1a1a2e;
+  --secondary-color: #000000;
+  --secondary-hover: #333333;
+  --secondary-text: #ffff00;
   
-  --background-primary: #1a1a2e;
-  --background-secondary: #16213e;
-  --background-tertiary: #0f1419;
+  --tertiary-color: #ffcc00;
+  --tertiary-hover: #ffdd33;
   
-  --text-primary: #00ff88;
-  --text-secondary: #00ccff;
-  --text-tertiary: #8892b0;
+  --background-primary: #111111;
+  --background-secondary: #000000;
+  --background-tertiary: #0a0a0a;
   
-  --border-color: #00ff88;
-  --border-hover: #00cc66;
+  --text-primary: #ffff00;
+  --text-secondary: #ffcc00;
+  --text-tertiary: #ffff99;
   
-  --shadow-small: 0 2px 4px rgba(0, 255, 136, 0.2);
-  --shadow-medium: 0 4px 8px rgba(0, 255, 136, 0.3);
-  --shadow-large: 0 8px 16px rgba(0, 255, 136, 0.4);
+  --border-color: #ffff00;
+  --border-hover: #ffff66;
+  
+  --shadow-small: 
+    0 2px 4px rgba(255, 255, 0, 0.2),
+    0 0 4px rgba(255, 204, 0, 0.1);
+  --shadow-medium: 
+    0 4px 8px rgba(255, 255, 0, 0.25),
+    0 0 8px rgba(255, 204, 0, 0.15);
+  --shadow-large: 
+    0 8px 16px rgba(255, 255, 0, 0.3),
+    0 0 16px rgba(255, 204, 0, 0.2),
+    0 0 32px rgba(255, 255, 0, 0.1);
+    
+  --success-color: #ffff00;
+  --danger-color: #ff3300;
+  --warning-color: #ffcc00;
+  --info-color: #ffff99;
+}
+
+/* Epic Fantasy Mythic theme - Inspired by Mythic Cards */
+[data-theme="fantasy"] {
+  --primary-color: #d4af37;
+  --primary-hover: #f7d97f;
+  --primary-text: #2c1810;
+  
+  --secondary-color: #87ceeb;
+  --secondary-hover: #a2d8f0;
+  --secondary-text: #0f0f1a;
+  
+  --tertiary-color: #ff6b35;
+  --tertiary-hover: #ff8a66;
+  
+  --background-primary: #1a0f2e;
+  --background-secondary: #2d1b3d;
+  --background-tertiary: #0f0f1a;
+  
+  --text-primary: #f0e6d2;
+  --text-secondary: #d4af37;
+  --text-tertiary: #b0c4de;
+  
+  --border-color: #d4af37;
+  --border-hover: #f7d97f;
+  
+  --shadow-small: 
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    0 0 8px rgba(212, 175, 55, 0.1);
+  --shadow-medium: 
+    0 4px 8px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(212, 175, 55, 0.2);
+  --shadow-large: 
+    0 8px 25px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(212, 175, 55, 0.3),
+    0 0 40px rgba(135, 206, 235, 0.1);
+    
+  --success-color: #32cd32;
+  --danger-color: #ff4444;
+  --warning-color: #ff6b35;
+  --info-color: #87ceeb;
 }

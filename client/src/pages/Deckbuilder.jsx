@@ -126,7 +126,7 @@ function Deckbuilder() {
         <div className="processing-status">
           <ProgressBar 
             progress={(processingStatus.processedCards / processingStatus.totalCards) * 100}
-            message="Google Vision API is extracting card names from your images..."
+            message="Extracting card names from images..."
           />
         </div>
       )}
@@ -135,9 +135,9 @@ function Deckbuilder() {
       {processingStatus && processingStatus.isComplete && (
         <div className="processing-complete">
           <div className="complete-message">
-            ✅ Card name extraction complete! 
+            Card name extraction complete. Please refresh the page.
             <Button onClick={handleRefresh} className="refresh-btn">
-              Refresh to see card names
+              Refresh
             </Button>
           </div>
         </div>

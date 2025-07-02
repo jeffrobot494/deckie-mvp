@@ -200,7 +200,7 @@ class VisionService {
                             wordsInGroup[wordsInGroup.length - 1].detection.boundingPoly.vertices[0].x);
           
           const wordWidth = otherWord.detection.boundingPoly.vertices[1].x - otherWord.detection.boundingPoly.vertices[0].x;
-          const gapTolerance = maxHeight * 2; // Allow gaps up to 2x character height
+          const gapTolerance = maxHeight * 1.4; // Reduced by 30%: was 2.0, now 1.4 (2.0 * 0.7)
           
           // Check if the word fits within reasonable distance of the group
           const distanceToGroup = Math.min(

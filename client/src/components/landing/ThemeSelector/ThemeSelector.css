@@ -45,13 +45,99 @@
 }
 
 .theme-neon {
-  background: linear-gradient(45deg, #1a1a2e, #16213e);
-  color: #00ff88;
-  border-color: #00ff88;
+  background: linear-gradient(45deg, #000000, #1a1a00);
+  color: #ffff00;
+  border-color: #ffff00;
+  position: relative;
+  overflow: hidden;
 }
 
 .theme-neon:hover,
 .theme-neon.selected {
-  border-color: #00cc66;
-  box-shadow: 0 4px 8px rgba(0, 255, 136, 0.3);
+  border-color: #ffff66;
+  box-shadow: 
+    0 4px 8px rgba(255, 255, 0, 0.3),
+    inset 0 0 20px rgba(255, 255, 0, 0.1);
+}
+
+/* Sheen animation for neon theme button */
+.theme-neon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 0, 0.4), 
+    rgba(255, 204, 0, 0.6), 
+    rgba(255, 255, 0, 0.4), 
+    transparent
+  );
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+
+.theme-neon.sheen-animation::before {
+  left: 100%;
+}
+
+.theme-fantasy {
+  background: linear-gradient(45deg, #334155, #475569);
+  color: #3b82f6;
+  border-color: #64748b;
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-fantasy:hover,
+.theme-fantasy.selected {
+  border-color: #3b82f6;
+  box-shadow: 
+    0 4px 8px rgba(59, 130, 246, 0.3),
+    inset 0 0 20px rgba(34, 197, 94, 0.1);
+}
+
+/* Sword and Shield Decorative Elements */
+.theme-fantasy::before {
+  content: '⚔️';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 16px;
+  opacity: 0.6;
+  animation: weaponGlint 3s ease-in-out infinite;
+}
+
+.theme-fantasy::after {
+  content: '🛡️';
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  font-size: 14px;
+  opacity: 0.5;
+  animation: shieldGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes weaponGlint {
+  0%, 100% { 
+    opacity: 0.6;
+    transform: rotate(0deg) scale(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: rotate(15deg) scale(1.1);
+  }
+}
+
+@keyframes shieldGlow {
+  0% { 
+    opacity: 0.5;
+    filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.3));
+  }
+  100% { 
+    opacity: 0.8;
+    filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.6));
+  }
 }

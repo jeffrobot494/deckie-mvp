@@ -54,5 +54,22 @@ export const api = {
   async healthCheck() {
     const response = await fetch(`${API_BASE_URL}/health`)
     return response.json()
+  },
+
+  async exportToTTS(deckieUrl, deckCards) {
+    const response = await fetch(`${API_BASE_URL}/deckie/${deckieUrl}/export-tts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ deckCards })
+    })
+    
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.error || 'Failed to export to TTS')
+    }
+    
+    return response.json()
   }
 }

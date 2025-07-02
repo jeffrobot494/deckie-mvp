@@ -17,6 +17,8 @@
   width: 100%;
   text-align: center;
   border: 1px solid var(--border-color);
+  position: relative;
+  z-index: 1;
 }
 
 .logo {
@@ -57,11 +59,49 @@
 
 /* Theme-specific styling for landing page */
 [data-theme="dark"] .landing-page {
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  background: 
+    radial-gradient(ellipse at 15% 25%, rgba(103, 126, 234, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 75%, rgba(156, 163, 175, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(75, 85, 99, 0.08) 0%, transparent 50%),
+    linear-gradient(135deg, #1f2937 0%, #374151 25%, #4b5563 50%, #374151 75%, #1f2937 100%) !important;
+  background-size: 500% 500%, 500% 500%, 300% 300%, 200% 200%;
+  background-attachment: fixed;
+  animation: tradingCardGradient 8s ease infinite;
+}
+
+/* Dark theme floating cards specifically for landing page */
+[data-theme="dark"] .landing-page::after {
+  content: '🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️ 🃏 🎲 🂡 ♠️ 🃞 🎯 🂮 ♣️ 🃋 🎲 🂺 ♦️ 🃑 🎰 🂧 ♥️';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 150%;
+  height: 150%;
+  z-index: 0;
+  font-size: 32px;
+  color: rgba(156, 163, 175, 0.25);
+  white-space: pre-wrap;
+  word-spacing: 80px;
+  line-height: 120px;
+  animation: floatingCards 15s linear infinite;
+  pointer-events: none;
+  opacity: 0.8;
 }
 
 [data-theme="neon"] .landing-page {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+[data-theme="fantasy"] .landing-page {
+  background: 
+    radial-gradient(circle at 15% 25%, rgba(212, 175, 55, 0.12) 0%, transparent 30%),
+    radial-gradient(circle at 85% 15%, rgba(255, 107, 53, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 30% 80%, rgba(135, 206, 235, 0.06) 0%, transparent 35%),
+    radial-gradient(circle at 70% 60%, rgba(138, 43, 226, 0.05) 0%, transparent 45%),
+    linear-gradient(135deg, #1a0f2e 0%, #2d1b3d 25%, #1a0f2e 50%, #0f0f1a 75%, #1a0f2e 100%) !important;
+  background-size: 300% 300%, 400% 400%, 350% 350%, 450% 450%, 200% 200%;
+  background-attachment: fixed;
+  animation: fantasyEnergyBalls 12s ease infinite;
 }
 
 @media (max-width: 768px) {

@@ -12,4 +12,4 @@ This three-step procedure should be used ANY TIME you are going to program. EVEN
 
 Please read "./docs/mvp.txt" to learn about the application we're building. 
 
-Please read "./docs/deckie-protoype.html" to see what the mvp will generally look like. When you code it, separate all CSS into dedicated files.
+Please read "./docs/deckie-prototype.html" to see what the mvp will generally look like. When you code it, separate all CSS into dedicated files.

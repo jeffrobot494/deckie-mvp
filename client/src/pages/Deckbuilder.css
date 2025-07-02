@@ -11,6 +11,16 @@
   box-shadow: var(--shadow-small);
 }
 
+/* Neon theme processing status styling */
+[data-theme="neon"] .processing-status {
+  background: #000000;
+  border: 2px solid var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
+  box-shadow: 
+    inset 0 0 10px rgba(255, 255, 0, 0.1),
+    0 0 10px rgba(255, 255, 0, 0.2);
+}
+
 /* Processing complete banner */
 .processing-complete {
   background: linear-gradient(135deg, var(--success-color), #22c55e);

@@ -74,9 +74,24 @@ async function initializeDatabase() {
     await appClient.query(createCardsQuery);
     console.log('✅ Cards table ready');
 
+    // Create deck_images table
+    const createDeckImagesQuery = `
+      CREATE TABLE IF NOT EXISTS deck_images (
+        id SERIAL PRIMARY KEY,
+        deckie_id INTEGER NOT NULL REFERENCES deckies(id) ON DELETE CASCADE,
+        deck_hash VARCHAR(255) NOT NULL,
+        image_url TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(deckie_id, deck_hash)
+      );
+    `;
+    await appClient.query(createDeckImagesQuery);
+    console.log('✅ Deck images table ready');
+
     // Create indexes for better performance
     const createIndexesQuery = `
       CREATE INDEX IF NOT EXISTS idx_cards_deckie_id ON cards(deckie_id);
+      CREATE INDEX IF NOT EXISTS idx_deck_images_deckie_id ON deck_images(deckie_id);
     `;
     await appClient.query(createIndexesQuery);
     console.log('✅ Database indexes ready');

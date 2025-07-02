@@ -1,9 +1,12 @@
+import { useState } from 'react'
 import { useDeck } from '../../../context/DeckContext'
 import Button from '../../common/Button/Button'
+import { api } from '../../../services/api'
 import './ExportButtons.css'
 
 function ExportButtons({ gameName, deckieUrl }) {
-  const { exportDeckAsText, totalCards } = useDeck()
+  const { exportDeckAsText, totalCards, cardCounts } = useDeck()
+  const [isExportingTTS, setIsExportingTTS] = useState(false)
   
   const handleExportText = () => {
     if (totalCards === 0) {
@@ -66,8 +69,62 @@ function ExportButtons({ gameName, deckieUrl }) {
     }
   }
   
-  const handleExportTTSImage = () => {
-    alert('TTS Image export coming soon!')
+  const handleExportTTSImage = async () => {
+    if (totalCards === 0) {
+      alert('Your deck is empty!')
+      return
+    }
+    
+    if (totalCards > 70) {
+      const proceed = confirm(`Your deck has ${totalCards} cards, but TTS export supports maximum 70 cards. Only the first 70 cards will be included. Continue?`)
+      if (!proceed) return
+    }
+    
+    setIsExportingTTS(true)
+    
+    try {
+      // Convert cardCounts to the format expected by the API
+      const deckCards = Object.entries(cardCounts).map(([cardName, quantity]) => ({
+        cardName,
+        quantity
+      }))
+      
+      // Call the TTS export API
+      const result = await api.exportToTTS(deckieUrl, deckCards)
+      
+      // Download the generated image
+      try {
+        const response = await fetch(result.imageUrl)
+        const blob = await response.blob()
+        const url = URL.createObjectURL(blob)
+        
+        const link = document.createElement('a')
+        link.href = url
+        link.download = `${gameName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_tts_deck.png`
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        
+        // Clean up the blob URL
+        URL.revokeObjectURL(url)
+      } catch (downloadError) {
+        console.error('Download failed, opening in new tab:', downloadError)
+        // Fallback: open in new tab if download fails
+        window.open(result.imageUrl, '_blank')
+      }
+      
+      if (result.cached) {
+        alert('TTS deck image downloaded! (Using cached version)')
+      } else {
+        alert('TTS deck image generated and downloaded successfully!')
+      }
+      
+    } catch (error) {
+      console.error('TTS export failed:', error)
+      alert(`Failed to export TTS image: ${error.message}`)
+    } finally {
+      setIsExportingTTS(false)
+    }
   }
   
   return (
@@ -83,9 +140,9 @@ function ExportButtons({ gameName, deckieUrl }) {
       <Button
         variant="secondary"
         onClick={handleExportTTSImage}
-        disabled={totalCards === 0}
+        disabled={totalCards === 0 || isExportingTTS}
       >
-        Export as TTS Image
+        {isExportingTTS ? 'Generating TTS Image...' : 'Export for TTS'}
       </Button>
       
       <Button
