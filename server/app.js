@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 import deckieRoutes from './routes/deckie.js';
 import cardsRoutes from './routes/cards.js';
 import healthRoutes from './routes/health.js';
+import configRoutes from './routes/config.js';
 
 dotenv.config({ path: '../.env' });
 
@@ -50,6 +51,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // API Routes
 app.use('/api/health', healthRoutes);
+app.use('/api/config', configRoutes);
 app.use('/api/deckie', deckieRoutes);
 app.use('/api/cards', cardsRoutes);
 

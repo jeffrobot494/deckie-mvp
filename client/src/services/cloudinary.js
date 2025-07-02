@@ -1,59 +1,54 @@
-const CLOUDINARY_CONFIG = {
-  cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
-  uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+// Global config cache
+let CLOUDINARY_CONFIG = null;
+
+// Fetch config from server
+async function getCloudinaryConfig() {
+  if (CLOUDINARY_CONFIG) {
+    return CLOUDINARY_CONFIG;
+  }
+
+  try {
+    console.log('Fetching Cloudinary config from server...');
+    const response = await fetch('/api/config');
+    
+    if (!response.ok) {
+      throw new Error(`Config fetch failed: ${response.status}`);
+    }
+    
+    const config = await response.json();
+    console.log('Received config from server:', config);
+    
+    CLOUDINARY_CONFIG = config.cloudinary;
+    return CLOUDINARY_CONFIG;
+  } catch (error) {
+    console.error('Failed to fetch Cloudinary config:', error);
+    
+    // Fallback to environment variables (for local development)
+    console.log('Falling back to environment variables...');
+    const fallbackConfig = {
+      cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+      uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+    };
+    
+    console.log('Fallback config:', fallbackConfig);
+    CLOUDINARY_CONFIG = fallbackConfig;
+    return CLOUDINARY_CONFIG;
+  }
 }
 
-// Comprehensive debugging
-console.log('=== CLOUDINARY DEBUG INFO ===');
-console.log('Environment mode:', import.meta.env.MODE);
-console.log('Environment dev:', import.meta.env.DEV);
-console.log('Environment prod:', import.meta.env.PROD);
-
-// Check raw environment variables
-console.log('Raw env variables:');
-console.log('- VITE_CLOUDINARY_CLOUD_NAME:', import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
-console.log('- VITE_CLOUDINARY_UPLOAD_PRESET:', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
-
-// Check for any variations/typos
-console.log('Checking for typos/variations:');
-console.log('- CLOUDINARY_CLOUD_NAME (no VITE):', import.meta.env.CLOUDINARY_CLOUD_NAME);
-console.log('- CLOUDINARY_UPLOAD_PRESET (no VITE):', import.meta.env.CLOUDINARY_UPLOAD_PRESET);
-console.log('- VITE_CLOUDINARY_CLOUDNAME (no underscore):', import.meta.env.VITE_CLOUDINARY_CLOUDNAME);
-console.log('- VITE_CLOUDINARY_UPLOADPRESET (no underscore):', import.meta.env.VITE_CLOUDINARY_UPLOADPRESET);
-
-// Check all environment variables starting with VITE
-console.log('All VITE environment variables:');
-const allEnvKeys = Object.keys(import.meta.env);
-const viteKeys = allEnvKeys.filter(key => key.startsWith('VITE_'));
-viteKeys.forEach(key => {
-  console.log(`- ${key}:`, import.meta.env[key]);
-});
-
-// Check if we have any cloudinary-related vars at all
-console.log('All cloudinary-related environment variables:');
-const cloudinaryKeys = allEnvKeys.filter(key => 
-  key.toLowerCase().includes('cloudinary') || 
-  key.toLowerCase().includes('cloud')
-);
-cloudinaryKeys.forEach(key => {
-  console.log(`- ${key}:`, import.meta.env[key]);
-});
-
-// Final config
-console.log('Final Cloudinary Config:', {
-  cloudName: CLOUDINARY_CONFIG.cloudName,
-  uploadPreset: CLOUDINARY_CONFIG.uploadPreset,
-  hasCloudName: !!CLOUDINARY_CONFIG.cloudName,
-  hasUploadPreset: !!CLOUDINARY_CONFIG.uploadPreset,
-  typeOfCloudName: typeof CLOUDINARY_CONFIG.cloudName,
-  typeOfUploadPreset: typeof CLOUDINARY_CONFIG.uploadPreset
-});
-console.log('=== END CLOUDINARY DEBUG ===');
-
 export const uploadToCloudinary = async (files, onProgress) => {
-  // Validate configuration first
-  if (!CLOUDINARY_CONFIG.cloudName || !CLOUDINARY_CONFIG.uploadPreset) {
-    throw new Error(`Cloudinary configuration missing: cloudName=${CLOUDINARY_CONFIG.cloudName}, uploadPreset=${CLOUDINARY_CONFIG.uploadPreset}`)
+  // Get config from server first
+  const config = await getCloudinaryConfig();
+  
+  console.log('=== UPLOAD DEBUG ===');
+  console.log('Config from server:', config);
+  console.log('Has cloudName:', !!config?.cloudName);
+  console.log('Has uploadPreset:', !!config?.uploadPreset);
+  console.log('===================');
+  
+  // Validate configuration
+  if (!config?.cloudName || !config?.uploadPreset) {
+    throw new Error(`Cloudinary configuration missing: cloudName=${config?.cloudName}, uploadPreset=${config?.uploadPreset}`)
   }
 
   const uploadedUrls = []
@@ -69,12 +64,12 @@ export const uploadToCloudinary = async (files, onProgress) => {
     
     const formData = new FormData()
     formData.append('file', file)
-    formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset)
+    formData.append('upload_preset', config.uploadPreset)
     formData.append('folder', 'deckie-cards')
     
     try {
       const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/image/upload`,
+        `https://api.cloudinary.com/v1_1/${config.cloudName}/image/upload`,
         {
           method: 'POST',
           body: formData
