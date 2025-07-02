@@ -3,13 +3,52 @@ const CLOUDINARY_CONFIG = {
   uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
 }
 
-// Debug logging
-console.log('Cloudinary Config:', {
+// Comprehensive debugging
+console.log('=== CLOUDINARY DEBUG INFO ===');
+console.log('Environment mode:', import.meta.env.MODE);
+console.log('Environment dev:', import.meta.env.DEV);
+console.log('Environment prod:', import.meta.env.PROD);
+
+// Check raw environment variables
+console.log('Raw env variables:');
+console.log('- VITE_CLOUDINARY_CLOUD_NAME:', import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
+console.log('- VITE_CLOUDINARY_UPLOAD_PRESET:', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
+
+// Check for any variations/typos
+console.log('Checking for typos/variations:');
+console.log('- CLOUDINARY_CLOUD_NAME (no VITE):', import.meta.env.CLOUDINARY_CLOUD_NAME);
+console.log('- CLOUDINARY_UPLOAD_PRESET (no VITE):', import.meta.env.CLOUDINARY_UPLOAD_PRESET);
+console.log('- VITE_CLOUDINARY_CLOUDNAME (no underscore):', import.meta.env.VITE_CLOUDINARY_CLOUDNAME);
+console.log('- VITE_CLOUDINARY_UPLOADPRESET (no underscore):', import.meta.env.VITE_CLOUDINARY_UPLOADPRESET);
+
+// Check all environment variables starting with VITE
+console.log('All VITE environment variables:');
+const allEnvKeys = Object.keys(import.meta.env);
+const viteKeys = allEnvKeys.filter(key => key.startsWith('VITE_'));
+viteKeys.forEach(key => {
+  console.log(`- ${key}:`, import.meta.env[key]);
+});
+
+// Check if we have any cloudinary-related vars at all
+console.log('All cloudinary-related environment variables:');
+const cloudinaryKeys = allEnvKeys.filter(key => 
+  key.toLowerCase().includes('cloudinary') || 
+  key.toLowerCase().includes('cloud')
+);
+cloudinaryKeys.forEach(key => {
+  console.log(`- ${key}:`, import.meta.env[key]);
+});
+
+// Final config
+console.log('Final Cloudinary Config:', {
   cloudName: CLOUDINARY_CONFIG.cloudName,
   uploadPreset: CLOUDINARY_CONFIG.uploadPreset,
   hasCloudName: !!CLOUDINARY_CONFIG.cloudName,
-  hasUploadPreset: !!CLOUDINARY_CONFIG.uploadPreset
-})
+  hasUploadPreset: !!CLOUDINARY_CONFIG.uploadPreset,
+  typeOfCloudName: typeof CLOUDINARY_CONFIG.cloudName,
+  typeOfUploadPreset: typeof CLOUDINARY_CONFIG.uploadPreset
+});
+console.log('=== END CLOUDINARY DEBUG ===');
 
 export const uploadToCloudinary = async (files, onProgress) => {
   // Validate configuration first
