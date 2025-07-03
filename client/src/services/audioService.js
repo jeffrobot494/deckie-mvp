@@ -143,35 +143,19 @@ class AudioService {
   }
 
   playFantasyHover() {
-    // Magical chime with harmonic overtones
-    const fundamental = this.createOscillator(523, 'sine'); // C5
-    const harmonic = this.createOscillator(659, 'triangle'); // E5
-    const whisper = this.createOscillator(392, 'sine'); // G4
+    // Subtle single-tone whisper
+    const whisper = this.createOscillator(392, 'sine'); // G4 - low, gentle tone
     
-    if (!fundamental || !harmonic || !whisper) return;
+    if (!whisper) return;
 
     const currentTime = this.audioContext.currentTime;
 
-    // Fundamental frequency - main chime
-    fundamental.gainNode.gain.setValueAtTime(0, currentTime);
-    fundamental.gainNode.gain.linearRampToValueAtTime(this.volume * 0.4, currentTime + 0.02);
-    fundamental.gainNode.gain.exponentialRampToValueAtTime(0.001, currentTime + 0.3);
-    fundamental.oscillator.start(currentTime);
-    fundamental.oscillator.stop(currentTime + 0.3);
-
-    // Harmonic - magical sparkle
-    harmonic.gainNode.gain.setValueAtTime(0, currentTime + 0.05);
-    harmonic.gainNode.gain.linearRampToValueAtTime(this.volume * 0.2, currentTime + 0.08);
-    harmonic.gainNode.gain.exponentialRampToValueAtTime(0.001, currentTime + 0.25);
-    harmonic.oscillator.start(currentTime + 0.05);
-    harmonic.oscillator.stop(currentTime + 0.25);
-
-    // Whisper - ethereal undertone
-    whisper.gainNode.gain.setValueAtTime(0, currentTime + 0.1);
-    whisper.gainNode.gain.linearRampToValueAtTime(this.volume * 0.15, currentTime + 0.15);
-    whisper.gainNode.gain.exponentialRampToValueAtTime(0.001, currentTime + 0.4);
-    whisper.oscillator.start(currentTime + 0.1);
-    whisper.oscillator.stop(currentTime + 0.4);
+    // Single whisper tone - 50% quieter, most subtle
+    whisper.gainNode.gain.setValueAtTime(0, currentTime);
+    whisper.gainNode.gain.linearRampToValueAtTime(this.volume * 0.075, currentTime + 0.02); // 50% of original 0.15
+    whisper.gainNode.gain.exponentialRampToValueAtTime(0.001, currentTime + 0.2);
+    whisper.oscillator.start(currentTime);
+    whisper.oscillator.stop(currentTime + 0.2);
   }
 
   // Card add sound - theme-specific
@@ -235,37 +219,36 @@ class AudioService {
   }
 
   playFantasyAdd() {
-    // Magical spell sound with voice-like formants
-    const voice1 = this.createOscillator(220, 'triangle'); // A3 - low voice
-    const voice2 = this.createOscillator(330, 'sine'); // E4 - mid voice
-    const magic = this.createOscillator(1047, 'triangle'); // C6 - high sparkle
+    // Short, ascending magical chime - positive and chirpy
+    const base = this.createOscillator(523, 'sine'); // C5 - clear base
+    const harmony = this.createOscillator(659, 'sine'); // E5 - major third
+    const sparkle = this.createOscillator(1047, 'triangle'); // C6 - magical shimmer
     
-    if (!voice1 || !voice2 || !magic) return;
+    if (!base || !harmony || !sparkle) return;
 
     const currentTime = this.audioContext.currentTime;
 
-    // Low voice - "Ahh" sound
-    voice1.gainNode.gain.setValueAtTime(0, currentTime);
-    voice1.gainNode.gain.linearRampToValueAtTime(this.volume * 0.3, currentTime + 0.1);
-    voice1.gainNode.gain.linearRampToValueAtTime(this.volume * 0.2, currentTime + 0.3);
-    voice1.gainNode.gain.exponentialRampToValueAtTime(0.001, currentTime + 0.6);
-    voice1.oscillator.frequency.exponentialRampToValueAtTime(200, currentTime + 0.6);
-    voice1.oscillator.start(currentTime);
-    voice1.oscillator.stop(currentTime + 0.6);
+    // Base note - immediate, bright attack
+    base.gainNode.gain.setValueAtTime(0, currentTime);
+    base.gainNode.gain.linearRampToValueAtTime(this.volume * 0.4, currentTime + 0.01);
+    base.gainNode.gain.exponentialRampToValueAtTime(0.001, currentTime + 0.25);
+    base.oscillator.frequency.exponentialRampToValueAtTime(550, currentTime + 0.25); // Slight upward bend
+    base.oscillator.start(currentTime);
+    base.oscillator.stop(currentTime + 0.25);
 
-    // Mid voice - harmonic
-    voice2.gainNode.gain.setValueAtTime(0, currentTime + 0.1);
-    voice2.gainNode.gain.linearRampToValueAtTime(this.volume * 0.25, currentTime + 0.2);
-    voice2.gainNode.gain.exponentialRampToValueAtTime(0.001, currentTime + 0.5);
-    voice2.oscillator.start(currentTime + 0.1);
-    voice2.oscillator.stop(currentTime + 0.5);
+    // Harmony - slight delay for magical layering
+    harmony.gainNode.gain.setValueAtTime(0, currentTime + 0.02);
+    harmony.gainNode.gain.linearRampToValueAtTime(this.volume * 0.3, currentTime + 0.03);
+    harmony.gainNode.gain.exponentialRampToValueAtTime(0.001, currentTime + 0.2);
+    harmony.oscillator.start(currentTime + 0.02);
+    harmony.oscillator.stop(currentTime + 0.2);
 
-    // Magic sparkle
-    magic.gainNode.gain.setValueAtTime(0, currentTime + 0.2);
-    magic.gainNode.gain.linearRampToValueAtTime(this.volume * 0.2, currentTime + 0.25);
-    magic.gainNode.gain.exponentialRampToValueAtTime(0.001, currentTime + 0.45);
-    magic.oscillator.start(currentTime + 0.2);
-    magic.oscillator.stop(currentTime + 0.45);
+    // Sparkle - brief magical shimmer
+    sparkle.gainNode.gain.setValueAtTime(0, currentTime + 0.05);
+    sparkle.gainNode.gain.linearRampToValueAtTime(this.volume * 0.15, currentTime + 0.07);
+    sparkle.gainNode.gain.exponentialRampToValueAtTime(0.001, currentTime + 0.15);
+    sparkle.oscillator.start(currentTime + 0.05);
+    sparkle.oscillator.stop(currentTime + 0.15);
   }
 
   // Card remove sound - theme-specific
