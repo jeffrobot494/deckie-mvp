@@ -21,7 +21,7 @@ function Header({ gameName, deckieUrl }) {
   
   return (
     <div className="header">
-      <a href="/" className="logo-link">deckie.tcg</a>
+      <a href="/" className="logo-link">deckie.net</a>
       <div className="header-content">
         <div className="game-info">
           <h1 className="game-title">{gameName}</h1>

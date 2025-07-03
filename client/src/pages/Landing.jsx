@@ -68,7 +68,7 @@ function Landing() {
   return (
     <div className="landing-page">
       <div className="landing-container">
-        <div className="logo">deckie.tcg</div>
+        <div className="logo">deckie.net</div>
         <div className="tagline">
           Create a beautiful deckbuilder for your TCG in under 5 minutes
         </div>

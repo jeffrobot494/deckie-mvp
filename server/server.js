@@ -14,7 +14,7 @@ async function startServer() {
     // Then start the server
     app.listen(PORT, () => {
       console.log(`🚀 Deckie server running on port ${PORT}`);
-      console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
+      console.log(`📊 Health check: https://localhost:${PORT}/api/health`);
       console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
     });
   } catch (error) {
