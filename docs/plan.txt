@@ -1,0 +1,9 @@
+DECKIE PLAN
+Features un-ordered
+-Notice about rights
+-Safeguard against bad images
+-Find card type and filter by type
+-Computer vision assistant
+-Account creation
+-Dashboard
+-Edit deckbuilder

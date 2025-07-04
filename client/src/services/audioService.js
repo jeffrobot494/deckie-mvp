@@ -102,10 +102,10 @@ class AudioService {
     
     switch(theme) {
       case 'fantasy':
-        this.playFantasyHover();
+        this.playDefaultHover();
         break;
       case 'neon':
-        this.playNeonHover();
+        this.playDefaultHover();
         break;
       default:
         this.playDefaultHover();
@@ -166,10 +166,10 @@ class AudioService {
     
     switch(theme) {
       case 'fantasy':
-        this.playFantasyAdd();
+        this.playDefaultAdd();
         break;
       case 'neon':
-        this.playNeonAdd();
+        this.playDefaultAdd();
         break;
       default:
         this.playDefaultAdd();
@@ -259,10 +259,10 @@ class AudioService {
     
     switch(theme) {
       case 'fantasy':
-        this.playFantasyRemove();
+        this.playDefaultRemove();
         break;
       case 'neon':
-        this.playNeonRemove();
+        this.playDefaultRemove();
         break;
       default:
         this.playDefaultRemove();
@@ -338,10 +338,10 @@ class AudioService {
     
     switch(theme) {
       case 'fantasy':
-        this.playFantasyClick();
+        this.playDefaultClick();
         break;
       case 'neon':
-        this.playNeonClick();
+        this.playDefaultClick();
         break;
       default:
         this.playDefaultClick();
